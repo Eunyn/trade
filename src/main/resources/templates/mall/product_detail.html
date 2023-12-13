@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="mall/header::head-fragment('Product Detail','product_detail')">
+    <meta charset="UTF-8">
+    <title>Product Detail</title>
+</head>
+
+<style>
+    /* table 样式 */
+    table {
+        border-top: 1px solid #ccc;
+        border-left: 1px solid #ccc;
+    }
+    table td,
+    table th {
+        border-bottom: 1px solid #ccc;
+        border-right: 1px solid #ccc;
+        padding: 3px 5px;
+    }
+    table th {
+        border-bottom: 2px solid #ccc;
+        text-align: center;
+    }
+
+    /* blockquote 样式 */
+    blockquote {
+        display: block;
+        border-left: 8px solid #d0e5f2;
+        padding: 5px 10px;
+        margin: 10px 0;
+        line-height: 1.4;
+        font-size: 100%;
+        background-color: #f1f1f1;
+    }
+
+    /* code 样式 */
+    code {
+        display: inline-block;
+        *display: inline;
+        *zoom: 1;
+        background-color: #f1f1f1;
+        border-radius: 3px;
+        padding: 3px 5px;
+        margin: 0 3px;
+    }
+    pre code {
+        display: block;
+    }
+
+    /* ul ol 样式 */
+    ul, ol {
+        margin: 10px 0 10px 20px;
+    }
+</style>
+<body>
+<header th:replace="mall/header::header-fragment"></header>
+<div class="container">
+    <div class="row">
+        <hr class="featurette-divider">
+        <div class="col-xs-12 col-sm-4 col-md-3">
+            <div class="left_nav" id="categories">
+                <h2 class="left_h">Categories</h2>
+                <ul class="left_nav_ul" id="firstpane" th:each="category: ${categories}">
+                    <li><a th:href="@{'/products/category?goodsCategoryId=' + ${category.categoryId}}"
+                           th:text="${category.categoryName}" class="biglink">
+                        Cras justo odio
+                    </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="col-xs-12 col-sm-8 col-md-9" style="float: right">
+            <div class="list_box">
+                <!--                <h2 class="left_h" th:text="${left_h}">OUTERWEAR</h2>-->
+                <div class="col-sm-12 col-md-6 showpic_box">
+                    <div class="bx-wrapper" style="max-width: 100%">
+                        <div class="bx-viewport"
+                             style="width: 100%; overflow: hidden; position: relative; height: 340px;">
+                            <ul class="showpic_flash">
+                                <li><img th:src="@{${details.goodsCoverImg}}"></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-sm-12 col-md-6 proinfo_box">
+                    <h1 th:text="${details.goodsName}"></h1>
+                    <ul class="product_info">
+                        <th:block th:if="${details.goodsColor != null }">
+                            <li>Color: <span th:text="${details.goodsColor}"></span></li>
+                        </th:block>
+                        <th:block th:if="${details.goodsSize != null }">
+                            <li>Size: <span th:text="${details.goodsSize}"></span></li>
+                        </th:block>
+                        <th:block th:if="${details.goodsMaterial != null }">
+                            <li>Material: <span th:text="${details.goodsMaterial}"></span></li>
+                        </th:block>
+                        <th:block th:if="${details.goodsPrice != null }">
+                            <li>Price: <span th:text="${details.goodsPrice}"></span></li>
+                        </th:block>
+                        <th:block th:if="${details.goodsInfo != null }">
+                            <li>Introduction: <span th:text="${details.goodsInfo}"></span></li>
+                        </th:block>
+                        <li>
+                            <input type="hidden" th:value="${details.goodsId}">
+                            <button type="button" name="INQUIRY" class="btn btn-primary" data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal">INQUIRY
+                            </button>
+                        </li>
+                    </ul>
+
+                </div>
+
+                <hr width="80%">
+                <div>
+                    <th:block th:if="${details.goodsDetails != null and details.goodsDetails != ''}">
+                        <span th:utext="${details.goodsDetails}"></span>
+                    </th:block>
+                    <th:block th:if="${details.goodsDetails == null || details.goodsDetails == ''}">
+                        <div class="col" id="nullProduct">
+                            <h2><span>Click on "INQUIRY" to inquire for details.</span></h2>
+                        </div>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">INQUIRY</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-floating mb-3">
+                            <input type="hidden" th:value="${details.goodsId}" class="form-control" id="goodsId"
+                                   placeholder="name@example.com">
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" th:value="${details.goodsName}" class="form-control" id="goodsName"
+                                   placeholder="name@example.com">
+                            <label for="goodsName">Product Name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="yourName" placeholder="name@example.com">
+                            <label for="yourName">Your Name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="companyName" placeholder="name@example.com">
+                            <label for="companyName">Company Name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="address" placeholder="name@example.com">
+                            <label for="address">Address</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="phone" placeholder="name@example.com">
+                            <label for="phone">Phone</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="fax" placeholder="name@example.com">
+                            <label for="fax">Fax</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="email" placeholder="name@example.com">
+                            <label for="email">*E-mail</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="text" class="form-control" id="message" placeholder="name@example.com">
+                            <label for="message">Message</label>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <input type="text" class="form-control" name="verifyCode" id="verifyCode"
+                                       placeholder="请输入验证码" required="true">
+                            </div>
+                            <div class="col-6">
+                                <img alt="单击图片刷新！" class="pointer" th:src="@{/common/mall/kaptcha}"
+                                     onclick="this.src='/common/mall/kaptcha?d='+new Date()*1">
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="sendInquiry">Send</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<hr>
+<footer class="container" id="footer">
+    <!--    <p class="float-end"><a href="#">Top</a></p>-->
+    <section>
+        <p>CopyRight 2023 Company Name All Right Reserved. hopetree</p>
+        <ul>
+            <li>Add: New York, Tel: +86 1888888888, Email: example@qq.com</li>
+        </ul>
+    </section>
+</footer>
+
+
+<script th:src="@{/common/js/jquery.min.js}"></script>
+<script th:src="@{/common/js/jquery-1.8.0.js}"></script>
+<script th:src="@{/common/js/public.js}"></script>
+<script th:src="@{/common/js/sweetalert.min.js}"></script>
+<script th:src="@{/mall/js/products.js}"></script>
+</body>
+</html>

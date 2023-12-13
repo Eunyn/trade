@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="mall/header::head-fragment('About Us','about')">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<style>
+    body {
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f8f8f8;
+    }
+
+    .container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+    header {
+        text-align: center;
+        margin-bottom: 20px;
+    }
+
+    h1, h2 {
+        color: #333;
+    }
+
+    section {
+        margin-bottom: 30px;
+    }
+
+    footer {
+        margin-top: 30px;
+        text-align: center;
+        color: #777;
+    }
+</style>
+<body>
+<header th:replace="mall/header::header-fragment"></header>
+<hr class="featurette-divider">
+
+<div class="container">
+    <header>
+        <h1>About Us</h1>
+    </header>
+
+    <section id="who-we-are">
+        <h2>Who We Are</h2>
+        <p>We are a dedicated team passionate about creating an exceptional shopping experience for our customers.</p>
+    </section>
+
+    <section id="what-we-do">
+        <h2>What We Do</h2>
+        <p>We specialize in shop display and consultation, offering a wide range of products and expert advice to help businesses thrive in the market.</p>
+    </section>
+
+    <section id="what-we-can-bring">
+        <h2>What We Can Bring to You</h2>
+        <p>Our services go beyond just displaying products; we bring innovative solutions, personalized recommendations, and a commitment to your success.</p>
+    </section>
+
+    <header>
+        <h1>Contact Us</h1>
+    </header>
+    <section id="contact-us">
+        <ul>
+            <li>Contact: <span>John</span></li>
+            <li>Phone: <span>010-3759237</span></li>
+            <li>Email: <span>example.com</span></li>
+            <li>Address: <span>New York</span></li>
+        </ul>
+    </section>
+
+    <hr class="featurette-divider">
+</div>
+
+<script th:src="@{/common/js/jquery-1.8.0.js}"></script>
+<script th:src="@{/common/js/public.js}"></script>
+<script th:src="@{/mall/js/products.js}"></script>
+</body>
+</html>

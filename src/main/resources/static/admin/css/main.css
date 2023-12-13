@@ -1,0 +1,126 @@
+html {
+    overflow-x: hidden;
+}
+
+.content-header {
+    position: relative;
+    padding: 0 0 3px 8px;
+}
+
+.content-header > .breadcrumb {
+    position: relative;
+    top: 0;
+    right: 0;
+    float: none;
+    margin-top: 0px;
+    padding-left: 10px;
+    background: #ecf0f5;
+}
+
+.main-footer {
+    padding: 7px;
+    color: #444;
+    border-top: 1px solid #eee;
+}
+
+[v-cloak] {
+    display: none;
+}
+
+.grid-btn {
+    margin-bottom: 12px;
+    display: flex;
+}
+
+.grid-btn .btn {
+    margin-right: 10px;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.ml-10 {
+    margin-left: 0 !important;
+}
+
+@media (min-width: 768px) {
+    .ml-10 {
+        margin-left: 10px !important;
+    }
+
+    .col-sm-10 {
+        width: 70%;
+        padding-left: 0px;
+    }
+
+    .col-sm-2 {
+        width: 24%;
+    }
+}
+
+@media (max-width: 767px) {
+    .row {
+        border-top: 1px solid #ddd;
+        margin: 0;
+        padding: 20px 2px 0px 2px;
+    }
+
+    .col-xs-6 {
+        padding-left: 0px;
+        padding-right: 0px;
+    }
+
+    .form-horizontal {
+        width: 100%;
+        padding-top: 20px;
+    }
+
+    .form-horizontal .form-group {
+        margin-left: 0px;
+        margin-right: 0px;
+    }
+}
+
+.dropdown-donate-lg {
+    min-width: 120px;
+    max-width: 120px;
+    padding: 0;
+}
+
+ul.thumbnails.image_picker_selector {
+    overflow: auto;
+    list-style: none outside none;
+    padding: 0;
+    margin: 0;
+}
+
+ul.thumbnails.image_picker_selector li {
+    margin: 0 12px 12px 0;
+    float: left;
+}
+
+ul.thumbnails.image_picker_selector li .thumbnail {
+    padding: 6px;
+    border: 1px solid #dddddd;
+}
+
+ul.thumbnails.image_picker_selector li .thumbnail.selected {
+    background: #0088cc;
+}
+
+#jqGrid,
+#jqGridPager {
+    text-align: center;
+}
+
+th {
+    text-align: center;
+}
+
+.ui-pg-input.form-control {
+    text-align: center;
+    width: 30px;
+}
+
+

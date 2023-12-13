@@ -1,0 +1,283 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foreign.trade.dao.GoodsInfoMapper">
+    <resultMap id="BaseResultMap" type="GoodsInfo">
+        <id column="goods_id" jdbcType="INTEGER" property="goodsId"/>
+        <result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="goods_info" jdbcType="VARCHAR" property="goodsInfo"/>
+        <result column="goods_category_id" jdbcType="INTEGER" property="goodsCategoryId"/>
+        <result column="goods_cover_img" jdbcType="VARCHAR" property="goodsCoverImg"/>
+        <result column="goods_color" jdbcType="VARCHAR" property="goodsColor"/>
+        <result column="goods_size" jdbcType="VARCHAR" property="goodsSize"/>
+        <result column="goods_material" jdbcType="VARCHAR" property="goodsMaterial"/>
+        <result column="goods_price" jdbcType="VARCHAR" property="goodsPrice"/>
+        <!--        <result column="goods_details" jdbcType="TEXT" property="goodsDetails"/>-->
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+
+    <resultMap id="BaseResult" type="GoodsCategoryInfo">
+        <id column="goodsId" jdbcType="INTEGER" property="goodsId"/>
+        <result column="categoryName" jdbcType="VARCHAR" property="categoryName"/>
+        <result column="goodsName" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="goodsInfo" jdbcType="VARCHAR" property="goodsInfo"/>
+        <result column="goodsCategoryId" jdbcType="INTEGER" property="goodsCategoryId"/>
+        <result column="goodsCoverImg" jdbcType="VARCHAR" property="goodsCoverImg"/>
+        <result column="goodsColor" jdbcType="VARCHAR" property="goodsColor"/>
+        <result column="goodsSize" jdbcType="VARCHAR" property="goodsSize"/>
+        <result column="goodsMaterial" jdbcType="VARCHAR" property="goodsMaterial"/>
+        <result column="goodsPrice" jdbcType="VARCHAR" property="goodsPrice"/>
+        <result column="createTime" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+
+    <resultMap extends="BaseResultMap" id="ResultMapWithBlob" type="GoodsInfo">
+        <result column="goods_details" jdbcType="VARCHAR" property="goodsDetails"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        goods_id
+        , goods_name, goods_info, goods_category_id, goods_cover_img, goods_color, goods_size, goods_material, goods_price, create_time
+    </sql>
+
+    <sql id="Blob_Column_List">
+        goods_details
+    </sql>
+
+    <insert id="insert" parameterType="GoodsInfo" useGeneratedKeys="true">
+        insert into tb_goods_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsName != null">
+                goods_name,
+            </if>
+            <if test="goodsInfo != null">
+                goods_info,
+            </if>
+            <if test="goodsCategoryId != null">
+                goods_category_id,
+            </if>
+            <if test="goodsCoverImg != null">
+                goods_cover_img,
+            </if>
+            <if test="goodsColor != null">
+                goods_color,
+            </if>
+            <if test="goodsSize != null">
+                goods_size,
+            </if>
+            <if test="goodsMaterial != null">
+                goods_material,
+            </if>
+            <if test="goodsPrice != null">
+                goods_price,
+            </if>
+            <if test="goodsDetails != null">
+                goods_details,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsName != null">
+                #{goodsName},
+            </if>
+            <if test="goodsInfo != null">
+                #{goodsInfo},
+            </if>
+            <if test="goodsCategoryId != null">
+                #{goodsCategoryId},
+            </if>
+            <if test="goodsCoverImg != null">
+                #{goodsCoverImg},
+            </if>
+            <if test="goodsColor != null">
+                #{goodsColor},
+            </if>
+            <if test="goodsSize != null">
+                #{goodsSize},
+            </if>
+            <if test="goodsMaterial != null">
+                #{goodsMaterial},
+            </if>
+            <if test="goodsPrice != null">
+                #{goodsPrice},
+            </if>
+            <if test="goodsDetails != null">
+                #{goodsDetails},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+    <update id="updateByPrimaryKey" parameterType="GoodsInfo">
+        update tb_goods_info
+        <set>
+            <if test="goodsName != null">
+                goods_name = #{goodsName},
+            </if>
+            <if test="goodsInfo != null">
+                goods_info = #{goodsInfo},
+            </if>
+            <if test="goodsCategoryId != null">
+                goods_category_id = #{goodsCategoryId},
+            </if>
+            <if test="goodsCoverImg != null">
+                goods_cover_img =#{goodsCoverImg},
+            </if>
+            <if test="goodsColor != null">
+                goods_color = #{goodsColor},
+            </if>
+            <if test="goodsSize != null">
+                goods_size = #{goodsSize},
+            </if>
+            <if test="goodsMaterial != null">
+                goods_material = #{goodsMaterial},
+            </if>
+            <if test="goodsPrice != null">
+                goods_price = #{goodsPrice},
+            </if>
+            <if test="goodsDetails != null">
+                goods_details = #{goodsDetails},
+            </if>
+        </set>
+        where goods_id =#{goodsId}
+    </update>
+
+    <delete id="deleteByPrimaryKey">
+        delete from tb_goods_info
+        where goods_id in
+        <foreach collection="goodsId" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <!--    <delete id="deleteByCategoryId" parameterType="java.lang.Integer">-->
+    <!--        delete from tb_goods_info-->
+    <!--        where goods_category_id = #{goodsCategoryId}-->
+    <!--    </delete>-->
+
+    <delete id="deleteByCategoryId">
+        delete from tb_goods_info
+        where goods_category_id in
+        <foreach collection="categoryId" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+
+    <select id="getGoodsWithCategoryInfo" parameterType="Map" resultMap="BaseResult">
+        SELECT
+        c.category_name AS categoryName,
+        g.goods_id AS goodsId,
+        g.goods_name AS goodsName,
+        g.goods_info AS goodsInfo,
+        g.goods_category_id AS goodsCategoryId,
+        g.goods_cover_img AS goodsCoverImg,
+        g.goods_color AS goodsColor,
+        g.goods_size AS goodsSize,
+        g.goods_material AS goodsMaterial,
+        g.goods_price AS goodsPrice,
+        g.goods_details AS goodsDetails,
+        g.create_time AS createTime
+        FROM tb_goods_info g
+        JOIN tb_goods_category c ON g.goods_category_id = c.category_id
+
+        <if test="start != null and limit != null">
+            ORDER BY g.goods_id DESC
+            limit #{start}, #{limit}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBlob">
+        select
+        <include refid="Base_Column_List"/>
+        ,
+        <include refid="Blob_Column_List"/>
+        from tb_goods_info
+        where goods_id = #{goodsId}
+    </select>
+
+    <select id="findGoodsInfoList" parameterType="Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_goods_info
+        <if test="start != null and limit != null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+
+    <select id="findGoodsInfoByCategory" resultType="Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_goods_info
+        <where>
+            <if test="goodsCategoryId != null and goodsCategoryId != ''">
+                and goods_category_id = #{goodsCategoryId}
+            </if>
+        </where>
+        <if test="start != null and limit != null">
+            limit #{start}, #{limit}
+        </if>
+    </select>
+
+    <select id="findGoodsInfoBySearch" parameterType="Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_goods_info
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (goods_name like CONCAT('%', #{keyword}, '%') or goods_info like CONCAT('%', #{keyword}, '%'))
+            </if>
+            <if test="goodsCategoryId != null and goodsCategoryId != ''">
+                and goods_category_id = #{goodsCategoryId}
+            </if>
+        </where>
+        <if test="orderBy != null and orderBy != ''">
+            <choose>
+                <when test="orderBy == 'new'">
+                    order by goods_id desc
+                </when>
+            </choose>
+        </if>
+        <if test="start != null and limit != null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+
+    <select id="getTotalGoodsBySearch" parameterType="Map" resultType="java.lang.Integer">
+        select count(*) from tb_goods_info
+        <where>
+            <if test="keyword != null and keyword != ''">
+                and (goods_name like CONCAT('%', #{keyword}, '%') or goods_info like CONCAT('%', #{keyword}, '%'))
+            </if>
+            <!--            <if test="goodsCategoryId != null and goodsCategoryId != ''">-->
+            <!--                and goods_category_id = #{goodsCategoryId}-->
+            <!--            </if>-->
+        </where>
+    </select>
+
+    <select id="getTotalGoods" parameterType="Map" resultType="java.lang.Integer">
+        select count(*)
+        from tb_goods_info
+    </select>
+
+    <select id="getTotalGoodsByCategory" resultType="java.lang.Integer">
+        select count(*)
+        from tb_goods_info
+        where goods_category_id = #{goodsCategoryId}
+    </select>
+
+    <select id="selectByCategoryId" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_goods_info
+        where goods_category_id = #{goodsCategoryId}
+    </select>
+
+    <select id="selectByName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_goods_info
+        where goods_name = #{goodsName}
+    </select>
+</mapper>

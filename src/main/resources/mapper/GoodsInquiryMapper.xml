@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foreign.trade.dao.GoodsInquiryMapper">
+    <resultMap id="BaseResultMap" type="GoodsInquiry">
+        <id column="inquiry_id" jdbcType="INTEGER" property="inquiryId"/>
+        <result column="goods_id" jdbcType="INTEGER" property="goodsId"/>
+        <result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
+        <result column="quantity" jdbcType="INTEGER" property="quantity"/>
+        <result column="your_name" jdbcType="VARCHAR" property="yourName"/>
+        <result column="company_name" jdbcType="VARCHAR" property="companyName"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="phone" jdbcType="VARCHAR" property="phone"/>
+        <result column="fax" jdbcType="VARCHAR" property="fax"/>
+        <result column="email" jdbcType="VARCHAR" property="email"/>
+        <result column="message" jdbcType="VARCHAR" property="message"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        inquiry_id
+        , goods_id, goods_name, quantity, your_name, company_name, address, phone, fax, email, message, create_time
+    </sql>
+
+    <insert id="inquiry" parameterType="GoodsInquiry" useGeneratedKeys="true">
+        insert into tb_goods_inquiry
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null">
+                goods_id,
+            </if>
+            <if test="goodsName != null">
+                goods_name,
+            </if>
+            <if test="quantity != null">
+                quantity,
+            </if>
+            <if test="yourName != null">
+                your_name,
+            </if>
+            <if test="companyName != null">
+                company_name,
+            </if>
+            <if test="address != null">
+                address,
+            </if>
+            <if test="phone != null">
+                phone,
+            </if>
+            <if test="fax != null">
+                fax,
+            </if>
+            <if test="email != null">
+                email,
+            </if>
+            <if test="message != null">
+                message,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="goodsId != null">
+                #{goodsId},
+            </if>
+            <if test="goodsName != null">
+                #{goodsName},
+            </if>
+            <if test="quantity != null">
+                #{quantity},
+            </if>
+            <if test="yourName != null">
+                #{yourName},
+            </if>
+            <if test="companyName != null">
+                #{companyName},
+            </if>
+            <if test="address != null">
+                #{address},
+            </if>
+            <if test="phone != null">
+                #{phone},
+            </if>
+            <if test="fax != null">
+                #{fax},
+            </if>
+            <if test="email != null">
+                #{email},
+            </if>
+            <if test="message != null">
+                #{message},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="findInquiryHistory" parameterType="Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_goods_inquiry
+        order by
+        inquiry_id desc
+        <if test="start != null and limit != null">
+            limit #{start},#{limit}
+        </if>
+
+    </select>
+
+    <select id="getInquiryById" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_goods_inquiry
+        where inquiry_id = #{inquiryId}
+    </select>
+
+    <select id="getTotalInquiry" parameterType="Map" resultType="java.lang.Integer">
+        select count(*)
+        from tb_goods_inquiry
+    </select>
+
+    <delete id="deleteInquiry">
+        delete from tb_goods_inquiry
+        where inquiry_id in
+        <foreach collection="inquiryId" item="item" index="index" open="(" close=")" separator=",">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

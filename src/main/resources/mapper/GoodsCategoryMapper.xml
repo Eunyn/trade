@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.foreign.trade.dao.GoodsCategoryMapper">
+    <resultMap id="BaseResultMap" type="com.foreign.trade.entity.GoodsCategory">
+        <id column="category_id" jdbcType="INTEGER" property="categoryId"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="is_deleted" jdbcType="TINYINT" property="isDeleted"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        category_id, category_name, create_time, is_deleted
+    </sql>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultType="com.foreign.trade.entity.GoodsCategory">
+        select
+            <include refid="Base_Column_List"/>
+        from tb_goods_category
+        where category_id = #{categoryId}
+    </select>
+
+    <select id="selectByCategoryName" parameterType="java.lang.String" resultMap="BaseResultMap">
+        select category_name
+        from tb_goods_category
+        where category_name = #{categoryName}
+    </select>
+
+    <select id="select" resultMap="BaseResultMap">
+        select
+            <include refid="Base_Column_List"/>
+        from tb_goods_category
+        order by
+        category_name asc
+    </select>
+
+    <select id="getTotalCategory" parameterType="Map" resultType="java.lang.Integer">
+        select count(*) from tb_goods_category
+    </select>
+
+    <select id="findGoodsCategoryList" parameterType="Map" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List"/>
+        from tb_goods_category
+        <if test="start != null and limit != null">
+            limit #{start},#{limit}
+        </if>
+    </select>
+
+    <insert id="insert" parameterType="GoodsCategory" useGeneratedKeys="true">
+        insert into tb_goods_category
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="categoryName != null">
+                category_name,
+            </if>
+            <if test="createTime != null">
+                create_time,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="categoryName != null">
+                #{categoryName},
+            </if>
+            <if test="createTime != null">
+                #{createTime},
+            </if>
+        </trim>
+    </insert>
+
+    <delete id="deleteByPrimaryKey">
+        delete from tb_goods_category
+        where category_id in
+        <foreach collection="categoryId" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+
+    <update id="updateByPrimaryKey" parameterType="GoodsCategory">
+        update tb_goods_category
+        set category_name = #{categoryName}
+        where category_id = #{categoryId}
+    </update>
+</mapper>

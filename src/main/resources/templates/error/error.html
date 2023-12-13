@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1"/>
+    <title>ERROR PAGE</title>
+    <link th:href="@{/common/css/error.css}">
+</head>
+<body>
+<div class="cover">
+    <h1>你的请求出错了</h1>
+    <p th:text="'错误信息：'+${message}" style="color: red;font-weight: 600;"></p>
+    <p th:text="'请求地址：'+${url}"></p>
+    <h2>报告问题</h2>
+    <h2>异常堆栈跟踪日志</h2>
+    <div th:each="string:${stackTrace}">
+        <small>
+            <th:block th:text="${string}"></th:block>
+        </small>
+    </div>
+    <h2>Copy Right</h2>
+    <p th:text="'author：'+${author}" style="color: #1baeae;"></p>
+</div>
+</body>
+</html>

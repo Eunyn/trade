@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<header th:replace="admin/header::header-fragment">
+</header>
+<style>
+    .ui-jqgrid tr.jqgrow td {
+        white-space: normal !important;
+        height: auto;
+        padding-top: 2px;
+        vertical-align: middle;
+    }
+
+    .ui-jqgrid tr.jqgfirstrow td {
+        padding: 0 2px 0 2px;
+        border-right-width: 1px;
+        border-right-style: solid;
+    }
+
+    a {
+        color: #1baeae;
+        text-decoration: none;
+        background-color: transparent;
+        -webkit-text-decoration-skip: objects;
+    }
+
+    a:hover {
+        color: white;
+        background-color: #1baeae;
+    }
+
+    th {
+        text-align: center;
+    }
+    .modal-title {
+        text-align: left;
+    }
+
+</style>
+
+<body class="hold-transition sidebar-mini">
+<div class="wrapper">
+    <!-- 引入页面头header-fragment -->
+    <div th:replace="admin/header::header-nav"></div>
+    <!-- 引入工具栏sidebar-fragment -->
+    <div th:replace="admin/sidebar::sidebar-fragment(${path})"></div>
+    <!-- Content Wrapper. Contains 图标content -->
+    <div class="content-wrapper">
+        <!-- Content Header (图标header) -->
+        <div class="content-header">
+            <div class="container-fluid">
+            </div><!-- /.container-fluid -->
+        </div>
+        <!-- Main content -->
+        <div class="content">
+            <div class="container-fluid">
+                <div class="card card-primary card-outline">
+                    <div class="card-header">
+                        <h3 class="card-title">历史记录</h3>
+                    </div> <!-- /.card-body -->
+                    <div class="card-body">
+                        <div class="grid-btn">
+                            <button class="btn btn-danger" onclick="deleteInquiry()"><i
+                                    class="fa fa-trash-o"></i>&nbsp;删除记录
+                            </button>
+                        </div>
+                        <table id="jqGrid" class="table table-bordered">
+                        </table>
+                        <div id="jqGridPager"></div>
+                    </div><!-- /.card-body -->
+                </div>
+            </div><!-- /.container-fluid -->
+        </div>
+
+        <div class="content">
+            <!-- 模态框（Modal） -->
+            <div class="modal fade" id="inquiryDetailModal" tabindex="-1" role="dialog"
+                 aria-labelledby="inquiryDetailModal">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h6 class="modal-title" id="orderItemModalLabel">Modal</h6>
+                        </div>
+                        <div class="modal-body">
+                            <form id="##">
+                                <div class="form-group">
+                                    <label id="inquiryDetailInfo" class="control-label"></label>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal -->
+        </div>
+    </div>
+    <!-- /.content-wrapper -->
+</div>
+
+
+<script th:src="@{/common/js/jquery.min.js}"></script>
+<script th:src="@{/common/js/bootstrap.bundle.js}"></script>
+<script th:src="@{/admin/js/adminlte.min.js}"></script>
+<script th:src="@{/admin/js/jqGrid/jquery.jqGrid.min.js}"></script>
+<script th:src="@{/admin/js/jqGrid/grid.locale-cn.js}"></script>
+<script th:src="@{/common/js/sweetalert.min.js}"></script>
+<script th:src="@{/common/js/public.js}"></script>
+<script th:src="@{/admin/js/goods/inquiry.js}"></script>
+</body>
+</html>

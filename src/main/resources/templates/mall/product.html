@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="mall/header::head-fragment('Product','product')">
+</head>
+<body>
+
+<!-- Header -->
+<header th:replace="mall/header::header-fragment">
+</header>
+
+<!-- Main Content -->
+<main>
+    <div class="container">
+        <div class="row">
+            <hr class="featurette-divider">
+            <!-- left -->
+            <div class="col-xs-12 col-sm-4 col-md-3">
+                <div class="left_nav" id="categories">
+                    <h2 class="left_h">Categories</h2>
+                    <ul class="left_nav_ul" id="firstpane" th:each="category: ${categories}">
+                        <li><a th:href="@{'/products/category?goodsCategoryId=' + ${category.categoryId}}"
+                               th:text="${category.categoryName}" class="biglink">
+                            Cras justo odio
+                        </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col" style="float: right">
+                <div class="row row-cols-4" id="shopContainer">
+                    <th:block th:if="${pageResult != null}">
+                        <div class="col" th:each="good : ${pageResult.list}" id="productImg">
+                            <a class="product_name" th:href="@{'/products/' + ${good.goodsId}}">
+                                <img th:src="@{${good.goodsCoverImg}}">
+                                <p th:text="${good.goodsName}">product</p>
+                            </a>
+                        </div>
+                    </th:block>
+                </div>
+                <th:block th:if="${#lists.isEmpty(pageResult)}">
+                    <div class="col">
+                        <h2><span>Don't have products.</span></h2>
+                    </div>
+                </th:block>
+                <th:block th:if="${!#lists.isEmpty(pageResult) and #lists.isEmpty(pageResult.list)}">
+                    <div class="col" id="nullProduct">
+                        <h2><span>Sorry, there are no products.</span></h2>
+                    </div>
+                </th:block>
+
+                <div class="page">
+                    <th:block th:if="${null != pageResult and !#lists.isEmpty(pageResult.list)}">
+                        <a th:href="@{${pageResult.currPage == 1}? '##':'/products/category?goodsCategoryId='+${goodsCategoryId == null?1:goodsCategoryId} + '&page='+${pageResult.currPage - 1}}">
+                            Previous
+                        </a>
+                        <th:block th:if="${pageResult.currPage - 2 >= 1}">
+                            <a th:href="@{'/products/category?goodsCategoryId='+${goodsCategoryId == null?1:goodsCategoryId} + '&page='+${pageResult.currPage - 2}}"
+                               th:text="${pageResult.currPage - 2}">1</a>
+                        </th:block>
+                        <th:block th:if="${pageResult.currPage - 1 >= 1}">
+                            <a th:href="@{'/products/category?goodsCategoryId='+${goodsCategoryId == null?1:goodsCategoryId} + '&page='+${pageResult.currPage - 1}}"
+                               th:text="${pageResult.currPage - 1}">1</a>
+                        </th:block>
+                        <a href="##" class="current" th:text="${pageResult.currPage}">1</a>
+                        <th:block th:if="${pageResult.currPage + 1 <= pageResult.totalPage}">
+                            <a th:href="@{'/products/category?goodsCategoryId='+${goodsCategoryId == null?1:goodsCategoryId} + '&page='+${pageResult.currPage + 1}}"
+                               th:text="${pageResult.currPage + 1}">1</a>
+                        </th:block>
+                        <th:block th:if="${pageResult.currPage + 2 <= pageResult.totalPage}">
+                            <a th:href="@{'/products/category?goodsCategoryId='+${goodsCategoryId == null?1:goodsCategoryId} + '&page='+${pageResult.currPage + 2}}"
+                               th:text="${pageResult.currPage + 2}">1</a>
+                        </th:block>
+                        <a th:href="@{${pageResult.currPage >= pageResult.totalPage}? '##':'/products/category?goodsCategoryId='+${goodsCategoryId == null?1:goodsCategoryId} + '&page='+${pageResult.currPage+1}}">
+                            Next
+                        </a>
+                    </th:block>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<!-- Footer -->
+<hr>
+<footer class="container" id="footer">
+    <!--    <p class="float-end"><a href="#">Top</a></p>-->
+    <section>
+        <p>CopyRight 2023 Company Name All Right Reserved. HopeTreePromos</p>
+        <ul>
+            <li>Add: New York, Tel: +86 1888888888, Email: example@qq.com</li>
+        </ul>
+    </section>
+</footer>
+
+<script th:src="@{/common/js/jquery-1.8.0.js}"></script>
+<script th:src="@{/common/js/public.js}"></script>
+<script th:src="@{/mall/js/products.js}"></script>
+</body>
+</html>
