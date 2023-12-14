@@ -3,6 +3,7 @@ package com.foreign.trade.controller.admin;
 import cn.hutool.captcha.ShearCaptcha;
 import com.foreign.trade.entity.GoodsAdmin;
 import com.foreign.trade.service.GoodsAdminService;
+import com.foreign.trade.service.RedisService;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,6 +27,9 @@ import javax.servlet.http.HttpSession;
 public class GoodsAdminController {
 
     @Resource
+    private RedisService redisService;
+
+    @Resource
     private GoodsAdminService goodsAdminService;
 
     @GetMapping("/login")
@@ -35,6 +39,8 @@ public class GoodsAdminController {
 
     @GetMapping({"", "/", "/index"})
     public String index(HttpServletRequest request) {
+        Long accessCount = redisService.getAccessCount();
+        request.setAttribute("accessCount", accessCount);
         request.setAttribute("path", "index");
 
         return "admin/index";

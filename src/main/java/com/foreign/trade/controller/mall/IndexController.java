@@ -71,7 +71,7 @@ public class IndexController {
         PageQueryUtil pageQueryUtil2 = new PageQueryUtil(params);
         List<GoodsInfo> goodsInfoList2 = goodsInfoService.findGoodsInfoList(pageQueryUtil2);
         request.setAttribute("goods", goodsInfoList2);
-//        logger.info("GoodsInfoList2: {}", goodsInfoList2);
+        request.setAttribute("indexPage", "index");
 
         return "mall/index";
     }
@@ -101,7 +101,8 @@ public class IndexController {
 
     @PostMapping("/inquiry")
     @ResponseBody
-    public CompletableFuture<Result> inquiryAsync(HttpSession session, @RequestBody GoodsInquiry goodsInquiry, @RequestParam("verifyCode") String verifyCode) {
+    public CompletableFuture<Result> inquiryAsync(HttpServletRequest request, HttpSession session, @RequestBody GoodsInquiry goodsInquiry, @RequestParam("verifyCode") String verifyCode) {
+        request.setAttribute("sendResult", goodsInquiry.getGoodsName());
         return CompletableFuture.supplyAsync(()->inquiry(session, goodsInquiry, verifyCode));
     }
 
@@ -131,15 +132,15 @@ public class IndexController {
         String message = getInquiryGoodsInfo(goodsInquiry);
         try {
             Boolean sendResult = emailService.sendEmailAsync(email, subject, message).get();
-            logger.info("sendResult: {}", sendResult);
         } catch (MessagingException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
-            return new Result(404, "Send fail.");
+            logger.info("### Send Fail=====");
+            return new Result(404, "Email Send fail.");
         }
 
         int ret = goodsInquiryService.inquiry(goodsInquiry);
         if (ret == 0)
-            return new Result(404, "Send fail2.");
+            return new Result(404, "Store the record fail.");
 
         return new Result(200, "success");
     }

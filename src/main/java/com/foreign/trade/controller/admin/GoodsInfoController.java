@@ -38,7 +38,7 @@ import java.util.Map;
 @RequestMapping("/admin")
 public class GoodsInfoController {
 
-    private Logger logger = LoggerFactory.getLogger(GoodsInfoController.class);
+    private final Logger logger = LoggerFactory.getLogger(GoodsInfoController.class);
 
     @Resource
     private GoodsInfoService goodsInfoService;
@@ -48,6 +48,13 @@ public class GoodsInfoController {
 
     @Resource
     private GoodsInquiryService goodsInquiryService;
+
+    @GetMapping("/indexConfig")
+    public String toIndexConfig(HttpServletRequest request) {
+        request.setAttribute("path", "indexConfig");
+
+        return "admin/index_config";
+    }
 
     @GetMapping("/goods")
     public String toGoodsPage(HttpServletRequest request) {
@@ -172,7 +179,8 @@ public class GoodsInfoController {
     }
 
     @GetMapping("/inquiry")
-    public String inquiryHistory() {
+    public String inquiryHistory(HttpServletRequest request) {
+        request.setAttribute("path", "inquiry");
 
         return "admin/inquiry";
     }
@@ -215,23 +223,6 @@ public class GoodsInfoController {
             return ResultGenerator.genFailResult("删除失败");
 
         return ResultGenerator.genSuccessResult("删除成功");
-    }
-
-    @GetMapping("/test")
-    @ResponseBody
-    public Result getGoodsWithCategoryInfo() {
-        Map<String, Object> params = new HashMap<>();
-        params.put("page", 1);
-        params.put("limit", 8);
-
-        PageQueryUtil pageQueryUtil = new PageQueryUtil(params);
-        PageResult goodsWithCategoryPage = goodsInfoService.getGoodsWithCategoryPage(pageQueryUtil);
-        List<?> list = goodsWithCategoryPage.getList();
-        for (Object o : list) {
-            logger.info("ret: {}", o);
-        }
-
-        return ResultGenerator.genSuccessResult(goodsWithCategoryPage);
     }
 
     private void deleteUploadImg(Integer[] goodsIds) {

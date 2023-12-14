@@ -1,6 +1,36 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <header th:replace="admin/header::header-fragment"></header>
+
+<style>
+    .ui-jqgrid tr.jqgrow td {
+        white-space: normal !important;
+        height: auto;
+        padding-top: 2px;
+        vertical-align: middle;
+    }
+
+    a {
+        color: #1baeae;
+        text-decoration: none;
+        background-color: transparent;
+        -webkit-text-decoration-skip: objects;
+    }
+
+    a:hover {
+        color: white;
+        background-color: #1baeae;
+    }
+
+    tr {
+        text-align: center;
+    }
+    .ui-jqgrid-labels{
+        color: #1b1e21;
+    }
+</style>
+
 <body class="hold-transition sidebar-mini">
+
 <div class="wrapper">
     <!-- 引入页面头header-fragment -->
     <div th:replace="admin/header::header-fragment"></div>
@@ -17,19 +47,45 @@
         <!-- Main content -->
         <div class="content">
             <div class="card card-primary card-outline">
-                <div class="card-header">
+                <div class="card-header d-flex justify-content-between align-items-end">
                     <h3 class="card-title">首页</h3>
-                </div> <!-- /.card-body -->
+                    <th:block th:if="${accessCount != null and accessCount != ''}">
+                        <label class="fa fa-user-times" title="首页访问次数">：<span th:text="${accessCount}"></span></label>
+                    </th:block>
+                </div>
+<!--                <div class="card-body" style="width: 500px">-->
+                    <div class="container text-center">
+                        <div class="row">
+                            <div class="col">
+                                <label class="hot-product">热门点击商品</label>
+                                <table id="jqGrid" class="table table-bordered">
+                                </table>
+                            </div>
+
+                            <div class="col">
+                                <label class="hot-product">热门INQUIRY商品</label>
+                                <table id="jqGrid1" class="table table-bordered">
+                                </table>
+                            </div>
+
+                        </div>
+                    </div>
+<!--                </div>&lt;!&ndash; /.card-body &ndash;&gt;-->
+                <div class="card-body" style="width: 100%">
+
+                </div><!-- /.card-body -->
             </div><!-- /.container-fluid -->
         </div>
-        <!-- /.content -->
     </div>
 </div>
 <!-- jQuery -->
 <script th:src="@{/common/js/jquery.min.js}"></script>
 <!-- Bootstrap 4 -->
 <script th:src="@{/common/js/bootstrap.bundle.min.js}"></script>
-<!-- AdminLTE App -->
 <script th:src="@{/admin/js/adminlte.min.js}"></script>
+<script th:src="@{/admin/js/jqGrid/jquery.jqGrid.min.js}"></script>
+<script th:src="@{/admin/js/jqGrid/grid.locale-cn.js}"></script>
+<script th:src="@{/common/js/sweetalert.min.js}"></script>
+<script th:src="@{/admin/js/goods/index.js}"></script>
 </body>
 </html>

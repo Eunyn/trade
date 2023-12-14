@@ -42,6 +42,7 @@ public class GoodsCategoryController {
 
     @GetMapping("/categories")
     public String listForSelect(HttpServletRequest request) {
+        request.setAttribute("path", "categories");
 
         return "admin/category";
     }

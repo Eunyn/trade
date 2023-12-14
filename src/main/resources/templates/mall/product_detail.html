@@ -105,7 +105,7 @@
                         <li>
                             <input type="hidden" th:value="${details.goodsId}">
                             <button type="button" name="INQUIRY" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal">INQUIRY
+                                    data-bs-target="#exampleModal" id="inquiryButton">INQUIRY
                             </button>
                         </li>
                     </ul>
@@ -179,8 +179,8 @@
                                        placeholder="请输入验证码" required="true">
                             </div>
                             <div class="col-6">
-                                <img alt="单击图片刷新！" class="pointer" th:src="@{/common/mall/kaptcha}"
-                                     onclick="this.src='/common/mall/kaptcha?d='+new Date()*1">
+                                <img id="kaptchaImage" alt="单击图片刷新！" class="pointer"
+                                     onclick="refreshKaptcha()">
                             </div>
                         </div>
                     </form>

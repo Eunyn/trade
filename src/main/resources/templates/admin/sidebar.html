@@ -7,7 +7,7 @@
         <img src="https://sfile.chatglm.cn/testpath/2d1dd6d8-8b44-5752-800e-ab8daf3c10ab_0.png?image_process=format,webp" alt="ssm-cluster Logo"
              class="brand-image img-circle elevation-3"
              style="opacity: .8">
-        <span class="brand-text font-weight-light">数据管理</span>
+        <span class="brand-text font-weight-light">后台管理</span>
     </a>
     <!-- Sidebar -->
     <div class="sidebar">
@@ -15,8 +15,6 @@
         <nav class="mt-2">
             <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
-                <!-- Add icons to the links using the .nav-icon class
-                     with font-awesome or any other icon font library -->
                 <li class="nav-header">Dashboard</li>
                 <li class="nav-item">
                     <a th:href="@{/admin/index}" th:class="${path}=='index'?'nav-link active':'nav-link'">
@@ -28,9 +26,18 @@
                 </li>
                 <li class="nav-header">管理模块</li>
                 <li class="nav-item">
+                    <a th:href="@{/admin/indexConfig}"
+                       th:class="${path}=='indexConfig'?'nav-link active':'nav-link'">
+                        <i class="fa fa-header nav-icon" aria-hidden="true"></i>
+                        <p>
+                            首页管理
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
                     <a th:href="@{/admin/categories}"
-                       th:class="${path}=='category'?'nav-link active':'nav-link'">
-                        <i class="fa fa-list-alt nav-icon" aria-hidden="true"></i>
+                       th:class="${path}=='categories'?'nav-link active':'nav-link'">
+                        <i class="fa fa-tags nav-icon" aria-hidden="true"></i>
                         <p>
                             分类管理
                         </p>
@@ -38,14 +45,14 @@
                 </li>
                 <li class="nav-item">
                     <a th:href="@{/admin/goods}" th:class="${path}=='goods'?'nav-link active':'nav-link'">
-                        <i class="fa fa-archive nav-icon" aria-hidden="true"></i>
+                        <i class="fa fa-list-alt nav-icon" aria-hidden="true"></i>
                         <p>
                             商品管理
                         </p>
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a th:href="@{/admin/inquiry}" th:class="${path}=='orders'?'nav-link active':'nav-link'">
+                    <a th:href="@{/admin/inquiry}" th:class="${path}=='inquiry'?'nav-link active':'nav-link'">
                         <i class="fa fa-history nav-icon" aria-hidden="true"></i>
                         <p>
                             历史记录

@@ -1,81 +1,3 @@
-// $(document).ready(function () {
-//     console.log("URL: " + window.location);
-//     const requestURL = window.location.href;
-//     // var apiEndpoint = '/products/list';
-//     var url = '/products/list';
-//     if (!requestURL.match(/category/)) {
-//         url = '/products/list';
-//         sendRequest(url);
-//         console.log("right");
-//     }
-//
-//     // const split = requestURL.split("/");
-//     // const categoryId = document.querySelectorAll('#categoryId');
-//     // var test = 'product_' + categoryId[0].value;
-//     // // var val = $('product_' + categoryId[0].value).val();
-//     // console.log('var: ' + test);
-//     // const product = document.getElementById(test);
-//     // if (product !== null) {
-//     //     console.log("product: " + product);
-//     //     product.addEventListener("click", function () {
-//     //         const a = categoryId[0].value;
-//     //         url = '/products/category/' + a;
-//     //         console.log("request url: " + url);
-//     //         sendRequest(url);
-//     //     });
-//     // }
-//
-//
-//
-//
-//     function sendRequest(url) {
-//         // const apiEndpoint = '/products/list';
-//         const params = {
-//             page: 1,
-//             limit: 12
-//         };
-//         $.ajax({
-//             url: url,
-//             type: 'GET',
-//             dataType: 'application/json',
-//             data: params,
-//
-//             success: function (data) {
-//                 displayShops(data);
-//             },
-//             error: function (error) {
-//                 console.error('Error fetching shops:', error);
-//             }
-//         });
-//     }
-//
-//     function displayShops(shops) {
-//         console.log("data:" + shops);
-//         const shopContainer = $('#shopContainer');
-//         if (shops.data.totalCount > 0) {
-//             $.each(shops.data.list, function (index, shop) {
-//                 const shopHtml = `
-//                         <div class="col" id="productImg">
-//                             <div class="shop-item">
-//                                 <a class="product_name" href="/products/ + ${shop.goodsId}">
-//                                     <img class="imgShow" src="${shop.goodsCoverImg}" alt="Shop Image">
-//                                     <p >${shop.goodsName}</p>
-//                                 </a>
-//                             </div>
-//                         </div>
-//                     `;
-//                 shopContainer.append(shopHtml);
-//             });
-//         } else {
-//             const noShopHtml = `
-//                     <div class="col">
-//                         <h2><span>No shops available.</span></h2>
-//                     </div>
-//                 `;
-//             shopContainer.append(noShopHtml);
-//         }
-//     }
-// });
 
 $('#sendInquiry').click(function () {
     const goodsId = $('#goodsId').val();
@@ -142,7 +64,7 @@ $('#sendInquiry').click(function () {
                 })
             } else {
                 swal(result.message, {
-                   icon: "error",
+                    icon: "error",
                 });
             }
         },
@@ -160,7 +82,7 @@ $(function () {
         if (key === 13) {
             const searchValue = $(this).val();
             if (searchValue && searchValue !== '') {
-                window.location.href='/search?keyword='+searchValue;
+                window.location.href = '/search?keyword=' + searchValue;
             }
         }
     })
@@ -174,5 +96,19 @@ function search() {
         });
     }
 
-    window.location.href='/search?keyword='+searchValue;
+    window.location.href = '/search?keyword=' + searchValue;
+}
+
+$('#inquiryButton').click(function (){
+    const kaptchaImage = document.getElementById('kaptchaImage');
+    if (kaptchaImage) {
+        kaptchaImage.src = '/common/mall/kaptcha';
+    }
+});
+
+function refreshKaptcha() {
+    const kaptchaImage = document.getElementById('kaptchaImage');
+    if (kaptchaImage) {
+        kaptchaImage.src = '/common/mall/kaptcha?d=' + new Date().getTime();
+    }
 }

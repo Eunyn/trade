@@ -7,8 +7,6 @@ import com.foreign.trade.service.GoodsCategoryService;
 import com.foreign.trade.service.GoodsInfoService;
 import com.foreign.trade.util.PageQueryUtil;
 import com.foreign.trade.util.PageResult;
-import com.foreign.trade.util.Result;
-import com.foreign.trade.util.ResultGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -16,7 +14,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +31,7 @@ import java.util.Map;
 @Controller
 public class GoodsDetailController {
 
-    private Logger logger = LoggerFactory.getLogger(GoodsDetailController.class);
+    private final Logger logger = LoggerFactory.getLogger(GoodsDetailController.class);
 
     @Resource
     private GoodsInfoService goodsInfoService;
