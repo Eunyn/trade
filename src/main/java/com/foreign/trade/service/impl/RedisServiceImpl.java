@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -75,5 +77,18 @@ public class RedisServiceImpl implements RedisService {
         }
 
         return result;
+    }
+
+    @Override
+    @Scheduled(cron = "0 0 0 * * ?")
+    public void resetDailyCounters() {
+        String currentDate = LocalDate.now().toString();
+        String key = "access:daily:" + currentDate;
+        redisTemplate.opsForValue().set(key, "0");
+    }
+
+    @Override
+    public String getAccessCounts(String key) {
+        return redisTemplate.opsForValue().get(key) != null ? redisTemplate.opsForValue().get(key): "0";
     }
 }

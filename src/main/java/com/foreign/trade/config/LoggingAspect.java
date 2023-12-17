@@ -10,11 +10,13 @@ import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
+import java.time.LocalDate;
 import java.util.Arrays;
 
 /**
@@ -34,6 +36,9 @@ public class LoggingAspect {
 
     @Autowired
     private RedisService redisService;
+
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
 
     @Pointcut("execution(* com.foreign.trade.controller..*.*(..))")
     public void executionPointcut() {
@@ -64,6 +69,8 @@ public class LoggingAspect {
         Object indexPage = request.getAttribute("indexPage");
         if (indexPage != null) {
             redisService.incrementAccessCount();
+            String currentDate = LocalDate.now().toString();
+            redisTemplate.opsForValue().increment("access:daily:" + currentDate);
         }
         // 统计被 Inquiry 的商品
         String sendResult = (String) request.getAttribute("sendResult");

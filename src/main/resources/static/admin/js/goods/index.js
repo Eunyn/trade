@@ -19,8 +19,7 @@ $(function () {
         jsonReader: {
             root: "data"
         },
-        prmNames: {
-        },
+        prmNames: {},
         gridComplete: function () {
             //隐藏grid底部滚动条
             $("#jqGrid").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
@@ -66,8 +65,7 @@ $(function () {
         jsonReader: {
             root: "data"
         },
-        prmNames: {
-        },
+        prmNames: {},
         gridComplete: function () {
             //隐藏grid底部滚动条
             $("#jqGrid1").closest(".ui-jqgrid-bdiv").css({"overflow-x": "hidden"});
@@ -77,4 +75,40 @@ $(function () {
     $(window).resize(function () {
         $("#jqGrid1").setGridWidth($(".card-body").width());
     });
+
+
 });
+accessCountEveryDay();
+
+function accessCountEveryDay() {
+    fetch("/admin/daily")
+        .then(response => response.json())
+        .then(data => {
+            const dates = Object.keys(data);
+            const counts = Object.values(data);
+
+            const ctx = document.getElementById("myCanvas");
+            ctx.style.maxWidth = '560px';
+            ctx.style.maxHeight = '400px';
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: dates,
+                    datasets: [{
+                        label: '网站每周访问量',
+                        data: counts,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            })
+        });
+}

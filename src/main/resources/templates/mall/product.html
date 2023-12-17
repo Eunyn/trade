@@ -15,11 +15,11 @@
             <hr class="featurette-divider">
             <!-- left -->
             <div class="col-xs-12 col-sm-4 col-md-3">
-                <div class="left_nav" id="categories">
+                <div class="left_nav nav nav-pills nav-sidebar flex-column" id="categories">
                     <h2 class="left_h">Categories</h2>
                     <ul class="left_nav_ul" id="firstpane" th:each="category: ${categories}">
-                        <li><a th:href="@{'/products/category?goodsCategoryId=' + ${category.categoryId}}"
-                               th:text="${category.categoryName}" class="biglink">
+                        <li class="nav-item"><a th:href="@{'/products/category?goodsCategoryId=' + ${category.categoryId}}"
+                               th:text="${category.categoryName}" th:class="${currCategory == category.categoryName} ? 'nav-link active': 'biglink'">
                             Cras justo odio
                         </a>
                         </li>

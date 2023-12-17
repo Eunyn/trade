@@ -75,6 +75,9 @@ public class GoodsDetailController {
             goodsCategoryId = Integer.parseInt((String) params.get("goodsCategoryId"));
             request.setAttribute("goodsCategoryId", goodsCategoryId);
             params.put("goodsCategoryId", goodsCategoryId);
+
+            GoodsCategory goodsCategory = goodsCategoryService.selectByPrimaryKey(goodsCategoryId);
+            request.setAttribute("currCategory", goodsCategory.getCategoryName());
         }
 
         params.put("limit", Constants.GOODS_SEARCH_PAGE_LIMIT);

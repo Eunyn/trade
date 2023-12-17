@@ -102,17 +102,15 @@ h2 {
 
 .left_nav_ul {
     list-style: none;
-    margin: 0px;
-    padding: 0px;
-    margin: 15px 0px 0px 0px;
-    /*text-align: center;*/
+    padding: 0;
+    margin: 15px 0 0 0;
+    width: 200px;
 }
 
 .left_nav_ul > li {
     position: relative;
     border-bottom: 1px solid #f2f2f2;
     padding: 8px 0px 8px 18px;
-    /*margin-left: 20px;*/
 }
 
 .left_nav_ul > li > a {

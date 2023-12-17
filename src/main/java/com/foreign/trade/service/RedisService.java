@@ -23,4 +23,8 @@ public interface RedisService {
     void incrementProductInquiryCount(String productName);
 
     Map<Object, Double> getTopProductInquiries(int count);
+
+    void resetDailyCounters();
+
+    String getAccessCounts(String key);
 }
