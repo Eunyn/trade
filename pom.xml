@@ -56,6 +56,10 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
         <!--邮件发送-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -80,7 +84,6 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
-<!--            <version>1.4.8</version>-->
         </dependency>
     </dependencies>
 

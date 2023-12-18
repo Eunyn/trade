@@ -25,10 +25,7 @@ import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -58,19 +55,31 @@ public class IndexController {
 
     @GetMapping({"","/index"})
     public String indexPage(HttpServletRequest request) {
-        // 默认显示第一个标签内的商品
-//        List<GoodsCategory> categoryList = goodsCategoryService.select();
+        // 首页默认显示数据库内前 12 条商品
+
         Map<String, Object> params = new HashMap<>();
         params.put("page", 1);
-        params.put("limit", 6);
+        params.put("limit", 12);
         PageQueryUtil pageQueryUtil = new PageQueryUtil(params);
         List<GoodsInfo> goodsInfoList = goodsInfoService.findGoodsInfoList(pageQueryUtil);
-        request.setAttribute("products", goodsInfoList);
-        params.put("page", 1);
-        params.put("limit", 3);
-        PageQueryUtil pageQueryUtil2 = new PageQueryUtil(params);
-        List<GoodsInfo> goodsInfoList2 = goodsInfoService.findGoodsInfoList(pageQueryUtil2);
-        request.setAttribute("goods", goodsInfoList2);
+        List<GoodsInfo> carousels = new ArrayList<>();
+        List<GoodsInfo> middleProducts = new ArrayList<>();
+        List<GoodsInfo> bottomProducts = new ArrayList<>();
+
+        int size = goodsInfoList.size();
+        for (int i = 0; i < 6 && i < size; i++) {
+            carousels.add(goodsInfoList.get(i));
+        }
+        for (int i = 6; i < 9 && i < size; i++) {
+            middleProducts.add(goodsInfoList.get(i));
+        }
+        for (int i = 9; i < 12 && i < size; i++) {
+            bottomProducts.add(goodsInfoList.get(i));
+        }
+
+        request.setAttribute("carousels", carousels);
+        request.setAttribute("products", middleProducts);
+        request.setAttribute("goods", bottomProducts);
         request.setAttribute("indexPage", "index");
 
         return "mall/index";

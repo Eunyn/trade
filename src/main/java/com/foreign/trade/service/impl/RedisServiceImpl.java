@@ -1,8 +1,8 @@
 package com.foreign.trade.service.impl;
 
+import com.foreign.trade.config.Constants;
 import com.foreign.trade.service.RedisService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.DefaultTypedTuple;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -83,12 +83,18 @@ public class RedisServiceImpl implements RedisService {
     @Scheduled(cron = "0 0 0 * * ?")
     public void resetDailyCounters() {
         String currentDate = LocalDate.now().toString();
-        String key = "access:daily:" + currentDate;
+        String key = Constants.ACCESS_DAILY + currentDate;
         redisTemplate.opsForValue().set(key, "0");
     }
 
     @Override
     public String getAccessCounts(String key) {
         return redisTemplate.opsForValue().get(key) != null ? redisTemplate.opsForValue().get(key): "0";
+    }
+
+    @Override
+    public void deleteKeyByProduct(String productName) {
+        redisTemplate.opsForZSet().remove(PRODUCT_INQUIRY_KEY, productName);
+        redisTemplate.opsForZSet().remove(PRODUCT_VISIT_KEY, productName);
     }
 }

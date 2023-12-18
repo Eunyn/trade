@@ -70,7 +70,7 @@ public class LoggingAspect {
         if (indexPage != null) {
             redisService.incrementAccessCount();
             String currentDate = LocalDate.now().toString();
-            redisTemplate.opsForValue().increment("access:daily:" + currentDate);
+            redisTemplate.opsForValue().increment(Constants.ACCESS_DAILY + currentDate);
         }
         // 统计被 Inquiry 的商品
         String sendResult = (String) request.getAttribute("sendResult");

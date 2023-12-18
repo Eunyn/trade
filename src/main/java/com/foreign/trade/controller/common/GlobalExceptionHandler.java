@@ -1,6 +1,9 @@
 package com.foreign.trade.controller.common;
 
 import com.foreign.trade.util.Result;
+import org.springframework.dao.DataAccessException;
+import org.springframework.dao.QueryTimeoutException;
+import org.springframework.data.redis.RedisConnectionFailureException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.ModelAndView;
@@ -41,10 +44,16 @@ public class GlobalExceptionHandler {
             modelAndView.addObject("message", e.getMessage());
             modelAndView.addObject("url", request.getRequestURL());
             modelAndView.addObject("stackTrace", e.getStackTrace());
-//            modelAndView.addObject("author", "Eun");
-//            modelAndView.addObject("ltd", "Trade Shop");
             return modelAndView;
         }
+    }
 
+    @ExceptionHandler({RedisConnectionFailureException.class, QueryTimeoutException.class})
+    public Object handleRedisConnectionFailure(HttpServletRequest request, DataAccessException e) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.addObject("message", e.getMessage());
+        modelAndView.addObject("url", request.getRequestURL());
+        modelAndView.addObject("stackTrace", e.getStackTrace());
+        return modelAndView;
     }
 }

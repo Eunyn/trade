@@ -78,16 +78,34 @@ $(function () {
 
 
 });
+
+function selectChange() {
+    const select = document.querySelector(".form-select");
+    select.addEventListener("change", function () {
+        accessCountEveryDay();
+    });
+}
+
 accessCountEveryDay();
 
 function accessCountEveryDay() {
-    fetch("/admin/daily")
+
+
+    const select = document.querySelector(".form-select");
+    const selectId = select.value;
+    const url = "/admin/daily/" + selectId;
+    fetch(url)
         .then(response => response.json())
         .then(data => {
             const dates = Object.keys(data);
             const counts = Object.values(data);
 
             const ctx = document.getElementById("myCanvas");
+            const existingChart = Chart.getChart(ctx);
+            if (existingChart) {
+                existingChart.destroy();
+            }
+
             ctx.style.maxWidth = '560px';
             ctx.style.maxHeight = '400px';
             new Chart(ctx, {
@@ -95,7 +113,7 @@ function accessCountEveryDay() {
                 data: {
                     labels: dates,
                     datasets: [{
-                        label: '网站每周访问量',
+                        label: '网站访问量',
                         data: counts,
                         backgroundColor: 'rgba(75, 192, 192, 0.2)',
                         borderColor: 'rgba(75, 192, 192, 1)',

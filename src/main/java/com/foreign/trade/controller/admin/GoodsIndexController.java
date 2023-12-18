@@ -1,19 +1,18 @@
 package com.foreign.trade.controller.admin;
 
+import com.foreign.trade.config.Constants;
 import com.foreign.trade.service.RedisService;
-import com.foreign.trade.util.PageResult;
 import com.foreign.trade.util.Result;
 import com.foreign.trade.util.ResultGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
+import java.time.Year;
 import java.util.*;
 
 /**
@@ -68,15 +67,15 @@ public class GoodsIndexController {
         return ResultGenerator.genSuccessResult(resultLists);
     }
 
-    @GetMapping("/daily")
+    @GetMapping("/daily/{selectId}")
     @ResponseBody
-    public Map<String, Long> getDailyAccessCounts() {
+    public Map<String, Long> getDailyAccessCounts(@PathVariable("selectId") Integer selectId) {
         TreeMap<String, Long> dailyCounts = new TreeMap<>();
         LocalDate currentDate = LocalDate.now();
-
-        for (int i = 0; i < 7; i++) {
-            String key = "access:daily:" + currentDate.minusDays(i);
-            logger.info("currentDate.minusDays({}): {}", i, currentDate.minusDays(i));
+        int monthDay = getDays(currentDate);
+        int days = selectId == 1 ? 7 : monthDay;
+        for (int i = 0; i < days; i++) {
+            String key = Constants.ACCESS_DAILY + currentDate.minusDays(i);
             long count = Long.parseLong(redisService.getAccessCounts(key));
             String day = currentDate.minusDays(i).toString().substring(5);
             dailyCounts.put(day, count);
@@ -91,5 +90,17 @@ public class GoodsIndexController {
         request.setAttribute("test", "testRequest");
 
         return "mall/index";
+    }
+
+    private int getDays(LocalDate currentDate) {
+        int[] days = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        int month = currentDate.getMonthValue();
+        int year = currentDate.getYear();
+
+        if (Year.isLeap(year)) {
+            days[2] = days[2] + 1;
+        }
+
+        return days[month];
     }
 }

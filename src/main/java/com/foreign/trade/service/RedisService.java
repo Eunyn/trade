@@ -1,6 +1,5 @@
 package com.foreign.trade.service;
 
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -27,4 +26,6 @@ public interface RedisService {
     void resetDailyCounters();
 
     String getAccessCounts(String key);
+
+    void deleteKeyByProduct(String productName);
 }

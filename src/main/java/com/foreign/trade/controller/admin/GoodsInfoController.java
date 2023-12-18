@@ -7,12 +7,14 @@ import com.foreign.trade.entity.GoodsInquiry;
 import com.foreign.trade.service.GoodsCategoryService;
 import com.foreign.trade.service.GoodsInfoService;
 import com.foreign.trade.service.GoodsInquiryService;
+import com.foreign.trade.service.RedisService;
 import com.foreign.trade.util.PageQueryUtil;
 import com.foreign.trade.util.PageResult;
 import com.foreign.trade.util.Result;
 import com.foreign.trade.util.ResultGenerator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -48,6 +50,9 @@ public class GoodsInfoController {
 
     @Resource
     private GoodsInquiryService goodsInquiryService;
+
+    @Resource
+    private RedisService redisService;
 
     @GetMapping("/indexConfig")
     public String toIndexConfig(HttpServletRequest request) {
@@ -169,6 +174,7 @@ public class GoodsInfoController {
         if (goodsIds == null || goodsIds.length < 1)
             return ResultGenerator.genFailResult("Data is not exist");
 
+        deleteRedisKey(goodsIds);
         deleteUploadImg(goodsIds);
 
         int i = goodsInfoService.deleteByPrimaryKey(goodsIds);
@@ -255,5 +261,14 @@ public class GoodsInfoController {
         }
 
         return resultTime;
+    }
+
+    private void deleteRedisKey(Integer[] goodsId) {
+        for (Integer id : goodsId) {
+            GoodsInfo goodsInfo = goodsInfoService.selectByPrimaryKey(id);
+            if (goodsInfo != null) {
+                redisService.deleteKeyByProduct(goodsInfo.getGoodsName());
+            }
+        }
     }
 }

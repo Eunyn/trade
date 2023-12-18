@@ -15,9 +15,9 @@
             }
         }
 
-        #carouselImg img {
-            position: center;
-        }
+        /*#carouselImg img {*/
+        /*    position: center;*/
+        /*}*/
         #containerIndex {
             position: fixed;
             margin-top: 500px;
@@ -40,10 +40,28 @@
             <li data-bs-target="#myCarousel" data-bs-slide-to="2"></li>
         </ol>
         <div class="carousel-inner">
-            <th:block th:if="${goods != null and !#lists.isEmpty(goods)}">
-                <div class="carousel-item active" th:each="good:${goods}" style="height: 700px">
-                    <a th:href="@{'/products/' + ${good.goodsId}}" class="bd-placeholder-img">
-                        <img th:src="@{${good.goodsCoverImg}}" style="float: left; list-style: none; position: relative; width: 100%; height: 680px" alt="...">
+            <th:block th:if="${carousels != null and !#lists.isEmpty(carousels)}">
+                <div class="carousel-item active" th:each="carousel:${carousels}" style="height: 700px">
+                    <a th:href="@{'/products/' + ${carousel.goodsId}}" class="bd-placeholder-img">
+                        <img th:src="@{${carousel.goodsCoverImg}}" style="float: left; list-style: none; position: relative; width: 100%; height: 680px" alt="...">
+                    </a>
+                </div>
+            </th:block>
+
+            <th:block th:if="${carousels == null || #lists.isEmpty(carousels)}">
+                <div class="carousel-item active" style="height: 700px">
+                    <a href="#" class="bd-placeholder-img">
+                        <img src="./mall/image/20231211_20362579.png" style="float: left; list-style: none; position: relative; width: 100%; height: 680px" alt="...">
+                    </a>
+                </div>
+                <div class="carousel-item active" style="height: 700px">
+                    <a href="#" class="bd-placeholder-img">
+                        <img src="./mall/image/20231211_21190359.png" style="float: left; list-style: none; position: relative; width: 100%; height: 680px" alt="...">
+                    </a>
+                </div>
+                <div class="carousel-item active" style="height: 700px">
+                    <a href="#" class="bd-placeholder-img">
+                        <img src="./mall/image/20231212_1610372.png" style="float: left; list-style: none; position: relative; width: 100%; height: 680px" alt="...">
                     </a>
                 </div>
             </th:block>
@@ -56,19 +74,39 @@
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </a>
-    </div>
 
-    <p th:text="${test}"></p>
+<!--        <div style="text-align: center;"><h3>View Details</h3></div>-->
+    </div>
 <!--    <hr>-->
-<!--    <div style="text-align: center;"><h2>View Details</h2></div>-->
     <div class="container marketing" >
         <!-- Three columns of text below the carousel -->
         <div class="row">
             <th:block th:if="${products != null and !#lists.isEmpty(products)}">
-                <div class="col-lg-4" th:each="good : ${products}" id="indexImg">
-                    <a th:href="@{'/products/' + ${good.goodsId}}">
-                        <img  width="200" height="200" th:src="@{${good.goodsCoverImg}}">
-                        <h2 th:text="${good.goodsName}">Heading</h2>
+                <div class="col-lg-4" th:each="product : ${products}" id="indexImg">
+                    <a th:href="@{'/products/' + ${product.goodsId}}">
+                        <img  width="200" height="200" th:src="@{${product.goodsCoverImg}}">
+                        <h2 th:text="${product.goodsName}">Heading</h2>
+                    </a>
+                </div>
+            </th:block>
+
+            <th:block th:if="${products == null || #lists.isEmpty(products)}">
+                <div class="col-lg-4">
+                    <a thref="#">
+                        <img  width="200" height="200" src="./mall/image/20231211_20362579.png">
+                        <h2>Harry Potter</h2>
+                    </a>
+                </div>
+                <div class="col-lg-4">
+                    <a thref="#">
+                        <img  width="200" height="200" src="./mall/image/20231212_1610372.png">
+                        <h2>Teddy</h2>
+                    </a>
+                </div>
+                <div class="col-lg-4">
+                    <a thref="#">
+                        <img  width="200" height="200" src="./mall/image/20231211_21190359.png">
+                        <h2>Talk like TED</h2>
                     </a>
                 </div>
             </th:block>
@@ -76,15 +114,14 @@
 
         <!-- START THE FEATURETTES -->
         <hr >
-
         <th:block th:if="${goods != null and !#lists.isEmpty(goods)}">
             <div class="row featurette" th:each="good : ${goods}">
-
                 <div class="col-md-7">
                     <a th:href="@{'/products/' + ${good.goodsId}}">
                         <h2 class="featurette-heading" th:text="${good.goodsName}">First featurette heading. <span
                                 class="text-muted">It’ll blow your mind.</span></h2>
-                        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis
+                        <br>
+                        <p class="lead" th:text="${good.goodsInfo}">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis
                             euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus,
                             tellus ac cursus commodo.</p>
                     </a>
@@ -100,6 +137,69 @@
             </div>
         </th:block>
 
+
+        <th:block th:if="${goods == null || #lists.isEmpty(goods)}">
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <a href="#">
+                        <h2 class="featurette-heading">First featurette heading. <span
+                                class="text-muted">It’ll blow your mind.</span></h2>
+                        <br>
+                        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis
+                            euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus,
+                            tellus ac cursus commodo.</p>
+                    </a>
+                </div>
+                <div class="col-md-5" id="carouselImg3">
+                    <a href="#">
+                        <img  class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+                              src="./mall/image/20231212_1610372.png" style="height: 400px; width: 400px" alt=""/>
+                    </a>
+                </div>
+
+                <div><hr></div>
+            </div>
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <a href="#">
+                        <h2 class="featurette-heading">First featurette heading. <span
+                                class="text-muted">It’ll blow your mind.</span></h2>
+                        <br>
+                        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis
+                            euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus,
+                            tellus ac cursus commodo.</p>
+                    </a>
+                </div>
+                <div class="col-md-5" id="carouselImg4">
+                    <a href="#">
+                        <img  class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+                              src="./mall/image/20231211_21190359.png" style="height: 400px; width: 400px" alt=""/>
+                    </a>
+                </div>
+
+                <div><hr></div>
+            </div>
+            <div class="row featurette">
+                <div class="col-md-7">
+                    <a href="#">
+                        <h2 class="featurette-heading">First featurette heading. <span
+                                class="text-muted">It’ll blow your mind.</span></h2>
+                        <br>
+                        <p class="lead">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis
+                            euismod semper. Praesent commodo cursus magna, vel scelerisque nisl consectetur. Fusce dapibus,
+                            tellus ac cursus commodo.</p>
+                    </a>
+                </div>
+                <div class="col-md-5" id="carouselImg5">
+                    <a href="#">
+                        <img  class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
+                              src="./mall/image/20231211_20362579.png" style="height: 400px; width: 400px" alt=""/>
+                    </a>
+                </div>
+
+                <div><hr></div>
+            </div>
+        </th:block>
     </div>
 
     <footer class="container" id="footer">

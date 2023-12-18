@@ -27,6 +27,21 @@
     .ui-jqgrid-labels{
         color: #1b1e21;
     }
+
+    .form-select {
+        padding: 8px;
+        font-size: 16px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        cursor: pointer;
+        display: flex;
+        margin-top: 5px;
+        margin-left: 230px;
+    }
+
+    .form-select:hover {
+        background-color: #f5f5f5;
+    }
 </style>
 
 <body class="hold-transition sidebar-mini">
@@ -69,12 +84,15 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col">
+                            <div class="col" >
+                                    <select class="form-select" onclick="selectChange()">
+                                        <option value="1">Weekly</option>
+                                        <option value="2">Monthly</option>
+                                    </select>
                                 <canvas id="myCanvas"></canvas>
                             </div>
                         </div>
                     </div>
-<!--                </div>&lt;!&ndash; /.card-body &ndash;&gt;-->
                 <div class="card-body" style="width: 100%">
 
                 </div><!-- /.card-body -->
