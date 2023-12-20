@@ -20,12 +20,34 @@
 
     .container {
         position: relative;
+        margin-top: 30px;
     }
 
     #productImg {
         text-align: center;
     }
 
+}
+
+.container.marketing img{
+    transition: transform 0.3s ease;
+}
+
+.container.marketing img:hover{
+    transform: scale(1.06) translateY(-7px);
+}
+
+.product_name img{
+    transition: transform 0.3s ease;
+}
+
+.product_name img:hover{
+    transform: scale(1.1) translateY(-10px);
+}
+
+.col-md-5.featured{
+    /*margin-bottom: 10px;*/
+    position: center;
 }
 
 #nullProduct {
@@ -52,7 +74,6 @@ a {
 
 ul {
     list-style: none;
-    /*text-align:;*/
 }
 
 h2 {
@@ -203,8 +224,16 @@ h2 {
 
     #productImg img{
         /*margin-left: 10px;*/
-        width: 200px;
-        height: 200px;
+        width: 225px;
+        height: 225px;
+        display: inline-block;
+        text-align: center;
+    }
+    #searchProductImg img{
+        width: 225px;
+        height: 225px;
+        display: inline-block;
+        text-align: center;
     }
 }
 
@@ -212,19 +241,17 @@ h2 {
 @media screen and (max-width: 768px) {
     .logo {
         display: block;
-        margin: 0 auto;
         max-width: 310px;
-        margin-top: 18px;
-        margin-bottom: 15px;
+        margin: 18px auto 15px;
     }
 
-    .navbar-default .navbar-brand {
+    .navbar-brand {
         color: #fff;
         font-size: 16px;
     }
 
-    .navbar-default .navbar-brand:hover,
-    .navbar-default .navbar-brand:focus {
+    .navbar-brand:hover,
+    .navbar-brand:focus {
         color: #fff;
     }
 
@@ -232,45 +259,42 @@ h2 {
         border: none;
     }
 
-    .navbar-default .navbar-collapse, .navbar-default .navbar-form {
+    .navbar-collapse, .navbar-default .navbar-form {
         border: 1px solid #202020;
     }
 
-    .navbar-default .navbar-toggle:hover,
-    .navbar-default .navbar-toggle:focus {
+    .navbar-toggle:hover,
+    .navbar-toggle:focus {
         background-color: #CFA970;
     }
 
-    .navbar-default .navbar-toggle .icon-bar {
+    .navbar-toggle .icon-bar {
         background-color: #fff;
     }
 
-    .navbar-default .navbar-nav {
-        margin-top: 0px;
-        margin-bottom: 0px;
+    .navbar-nav {
+        margin-top: 0;
+        margin-bottom: 0;
     }
 
-    .navbar-default .navbar-nav > li {
-    }
-
-    .navbar-default .navbar-nav > li:last-child {
+    .navbar-nav > li:last-child {
         border: none;
     }
 
-    .navbar-default .navbar-nav > li > a,
-    .navbar-default .navbar-nav .open .dropdown-menu > li > a {
+    .navbar-nav > li > a,
+    .navbar-nav .open .dropdown-menu > li > a {
         color: #fff;
     }
 
-    .navbar-default .navbar-nav > li > a:hover,
-    .navbar-default .navbar-nav > li > a:focus,
-    .navbar-default .navbar-nav > .active > a,
-    .navbar-default .navbar-nav > .active > a:hover,
-    .navbar-default .navbar-nav > .active > a:focus,
-    .navbar-default .navbar-nav > .open > a,
-    .navbar-default .navbar-nav > .open > a:hover,
-    .navbar-default .navbar-nav > .open > a:focus,
-    .navbar-default .navbar-nav .open .dropdown-menu > li > a:hover {
+    .navbar-nav > li > a:hover,
+    .navbar-nav > li > a:focus,
+    .navbar-nav > .active > a,
+    .navbar-nav > .active > a:hover,
+    .navbar-nav > .active > a:focus,
+    .navbar-nav > .open > a,
+    .navbar-nav > .open > a:hover,
+    .navbar-nav > .open > a:focus,
+    .navbar-nav .open .dropdown-menu > li > a:hover {
         background-color: #CFA970;
         color: #fff;
     }
@@ -279,17 +303,27 @@ h2 {
         margin-top: 10px;
     }
 
-    #indexImg img{
-        width: 50%;
-        height: 50%;
-        margin: 10px;
+    #productImg img{
+        height: 60%;
+        margin: 3px;
+        display: block; /* 使图片堆叠 */
+        width: 100%; /* 图片宽度占满父容器 */
+        text-align: center;
+        border: solid 1px grey;
+    }
+    #searchProductImg img {
+        width: 80%;
+        height: 60%;
+        margin: 3px;
+        text-align: center;
+    }
+    .showpic_flash {
+        width: 70%;
+        height: 80%;
     }
 
-    #productImg img{
-        /*margin-left: 10px;*/
-        width: 95%;
-        height: 80%;
-        margin: 5px;
+    .col-md-5.featured {
+        margin-bottom: 0;
     }
 }
 
@@ -301,6 +335,56 @@ h2 {
 
 /*320px到768px*/
 @media screen and (min-width: 320px) and (max-width: 768px) {
+    .col.productDisplay {
+        float: top;
+        display: block;
+        text-align: center;
+    }
+    .left_nav_ul {
+        float: bottom;
+        display: block;
+    }
+    .showpic_box div.bx-wrapper img {
+        margin: 0 30px 0 auto;
+    }
+
+    .carousel-item{
+        /*width: 50%;*/
+       max-height: 300px;
+    }
+
+    .carousel-item img{
+        max-height: 250px;
+    }
+
+    .col-md-5 img {
+        max-width: 80%;
+        max-height: 80%;
+    }
+
+    .container.marketing img{
+        transition: none;
+    }
+
+    .container.marketing img:hover{
+        transform: none;
+    }
+
+    .product_name img{
+        transition: none;
+    }
+
+    .product_name img:hover{
+        transform: none;
+    }
+
+
+
+
+
+
+
+
     .col-mm-1, .col-mm-2, .col-mm-3, .col-mm-4, .col-mm-5, .col-mm-6, .col-mm-7, .col-mm-8, .col-mm-9, .col-mm-10, .col-mm-11, .col-mm-12 {
         float: left;
     }
@@ -357,6 +441,10 @@ h2 {
 @media screen and (max-width: 340px) {
     .logo {
         max-width: 230px;
+    }
+
+    .container.marketing {
+        max-height: 200px;
     }
 }
 

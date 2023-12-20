@@ -44,6 +44,9 @@ public class GoodsDetailController {
         if (params.isEmpty()) {
             params = new HashMap<>();
             params.put("page", 1);
+        } else {
+            int page = Integer.parseInt((String) params.get("page"));
+            params.put("page", page);
         }
         params.put("limit", Constants.GOODS_SEARCH_PAGE_LIMIT);
 
@@ -55,7 +58,7 @@ public class GoodsDetailController {
 
         request.setAttribute("pageResult", pageResult);
 
-        return "mall/product";
+        return "mall/product_all";
     }
 
     @GetMapping("/products/category")
@@ -77,7 +80,9 @@ public class GoodsDetailController {
             params.put("goodsCategoryId", goodsCategoryId);
 
             GoodsCategory goodsCategory = goodsCategoryService.selectByPrimaryKey(goodsCategoryId);
-            request.setAttribute("currCategory", goodsCategory.getCategoryName());
+            if (goodsCategory != null) {
+                request.setAttribute("currCategory", goodsCategory.getCategoryName());
+            }
         }
 
         params.put("limit", Constants.GOODS_SEARCH_PAGE_LIMIT);

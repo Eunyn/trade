@@ -16,4 +16,6 @@ public interface GoodsAdminService {
     GoodsAdmin login(@Param("userName") String userName, @Param("userPassword") String password);
 
     GoodsAdmin selectByName(String userName);
+
+    int updatePassword(GoodsAdmin admin);
 }

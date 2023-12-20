@@ -4,12 +4,11 @@ import cn.hutool.captcha.ShearCaptcha;
 import com.foreign.trade.entity.GoodsAdmin;
 import com.foreign.trade.service.GoodsAdminService;
 import com.foreign.trade.service.RedisService;
+import com.foreign.trade.util.Result;
+import com.foreign.trade.util.ResultGenerator;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -93,6 +92,31 @@ public class GoodsAdminController {
         request.getSession().removeAttribute("errorMsg");
 
         return "admin/login";
+    }
+
+    @PostMapping("/password")
+    @ResponseBody
+    public Result updatePassword(HttpServletRequest request, @RequestBody GoodsAdmin admin) {
+        String loginUser = (String) request.getSession().getAttribute("loginUser");
+        GoodsAdmin goodsAdmin = goodsAdminService.selectByName(loginUser);
+        if (goodsAdmin == null) {
+            return ResultGenerator.genFailResult("没有此用户");
+        }
+        if (admin.getUserPassword().equals(goodsAdmin.getUserPassword())) {
+            return ResultGenerator.genFailResult("密码重复");
+        }
+
+        goodsAdmin.setUserPassword(admin.getUserPassword());
+
+        int i = goodsAdminService.updatePassword(goodsAdmin);
+        if (i != 1) {
+            return ResultGenerator.genFailResult("密码修改失败");
+        }
+        request.getSession().removeAttribute("loginUser");
+        request.getSession().removeAttribute("loginUserId");
+        request.getSession().removeAttribute("errorMsg");
+
+        return ResultGenerator.genSuccessResult("密码修改成功");
     }
 
 

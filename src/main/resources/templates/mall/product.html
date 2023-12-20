@@ -12,7 +12,6 @@
 <main>
     <div class="container">
         <div class="row">
-            <hr class="featurette-divider">
             <!-- left -->
             <div class="col-xs-12 col-sm-4 col-md-3">
                 <div class="left_nav nav nav-pills nav-sidebar flex-column" id="categories">
@@ -20,11 +19,11 @@
                     <aside th:replace="mall/header::categories-fragment"></aside>
                 </div>
             </div>
-            <div class="col" style="float: right">
+            <div class="col productDisplay" style="float: right">
                 <div class="row row-cols-4" id="shopContainer">
                     <th:block th:if="${pageResult != null}">
-                        <div class="col" th:each="good : ${pageResult.list}" id="productImg">
-                            <a class="product_name" th:href="@{'/products/' + ${good.goodsId}}">
+                        <div class="col" th:each="good : ${pageResult.list}" id="productImg" style="display: inline-block; width: 33.33%">
+                            <a class="product_name"  th:href="@{'/products/' + ${good.goodsId}}">
                                 <img th:src="@{${good.goodsCoverImg}}">
                                 <p th:text="${good.goodsName}">product</p>
                             </a>
@@ -78,7 +77,6 @@
 <!-- Footer -->
 <hr>
 <footer class="container" id="footer">
-    <!--    <p class="float-end"><a href="#">Top</a></p>-->
     <section>
         <p>CopyRight 2023 Company Name All Right Reserved. HopeTreePromos</p>
         <ul>

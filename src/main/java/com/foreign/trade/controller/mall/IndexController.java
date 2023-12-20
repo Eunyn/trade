@@ -67,10 +67,10 @@ public class IndexController {
         List<GoodsInfo> bottomProducts = new ArrayList<>();
 
         int size = goodsInfoList.size();
-        for (int i = 0; i < 6 && i < size; i++) {
+        for (int i = 0; i < 3 && i < size; i++) {
             carousels.add(goodsInfoList.get(i));
         }
-        for (int i = 6; i < 9 && i < size; i++) {
+        for (int i = 3; i < 9 && i < size; i++) {
             middleProducts.add(goodsInfoList.get(i));
         }
         for (int i = 9; i < 12 && i < size; i++) {

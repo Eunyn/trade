@@ -184,7 +184,7 @@ $('#saveButton').click(function () {
             "goodsDetails": goodsDetailContent
         };
     }
-    console.log(data);
+    // console.log(data);
     $.ajax({
         type: 'POST',
         url: url,

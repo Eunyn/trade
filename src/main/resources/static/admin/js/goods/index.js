@@ -8,7 +8,7 @@ $(function () {
             {label: '访问次数', name: 'score', index: 'score', width: 30},
 
         ],
-        height: 300,
+        height: 365,
         rowNum: 20,
         styleUI: 'Bootstrap',
         loadtext: '信息读取中...',
@@ -54,7 +54,7 @@ $(function () {
             {label: 'INQUIRY次数', name: 'score', index: 'score', width: 40},
 
         ],
-        height: 300,
+        height: 365,
         rowNum: 20,
         styleUI: 'Bootstrap',
         loadtext: '信息读取中...',
@@ -130,3 +130,58 @@ function accessCountEveryDay() {
             })
         });
 }
+
+function updatePassword() {
+    $('#passwordModel').modal('show');
+}
+
+$('#submitPassword').click(function () {
+    const firstInput = $("#passwordFirst").val();
+    const secondInput = $("#passwordSecond").val();
+
+    if (isNull(firstInput) || isNull(secondInput)) {
+        swal("密码不能为空", {
+            icon: "error",
+        });
+        return;
+    }
+    if (firstInput.length < 6 || firstInput.length > 16) {
+        swal("密码不能低于6位，多于16位", {
+            icon: "error",
+        });
+        return;
+    }
+    if (firstInput !== secondInput) {
+        swal("密码不一致", {
+            icon: "error",
+        });
+        return;
+    }
+
+    const data = {"userName": "","userPassword": firstInput};
+    $.ajax({
+        type: 'POST',
+        url: '/admin/password',
+        contentType: 'application/json',
+        data: JSON.stringify(data),
+        success: function (result) {
+            if (result.code === 200) {
+                swal("修改成功", {
+                    icon: "success",
+                }).then(function () {
+                    window.location.href = "/admin/login";
+                })
+            } else {
+                swal(result.message, {
+                    icon: "error",
+                });
+            }
+
+        },
+        error: function () {
+            swal("修改失败", {
+                icon: "error",
+            });
+        }
+    });
+});

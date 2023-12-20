@@ -100,15 +100,15 @@ function search() {
 }
 
 $('#inquiryButton').click(function (){
-    const kaptchaImage = document.getElementById('kaptchaImage');
-    if (kaptchaImage) {
-        kaptchaImage.src = '/common/mall/kaptcha';
+    const captchaImage = document.getElementById('captchaImage');
+    if (captchaImage) {
+        captchaImage.src = '/common/mall/captcha';
     }
 });
 
-function refreshKaptcha() {
-    const kaptchaImage = document.getElementById('kaptchaImage');
-    if (kaptchaImage) {
-        kaptchaImage.src = '/common/mall/kaptcha?d=' + new Date().getTime();
+function refreshCaptcha() {
+    const captchaImage = document.getElementById('captchaImage');
+    if (captchaImage) {
+        captchaImage.src = '/common/mall/captcha?d=' + new Date().getTime();
     }
 }

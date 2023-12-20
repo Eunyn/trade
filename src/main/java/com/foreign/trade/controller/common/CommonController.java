@@ -18,8 +18,8 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class CommonController {
 
-    @GetMapping("/common/kaptcha")
-    public void defaultKaptcha(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @GetMapping("/common/captcha")
+    public void defaultCaptcha(HttpServletRequest request, HttpServletResponse response) throws Exception {
         response.setHeader("Cache-Control", "no-store");
         response.setHeader("Pragma","no-cache");
         response.setDateHeader("Expires", 0);
@@ -32,8 +32,8 @@ public class CommonController {
         shearCaptcha.write(response.getOutputStream());
     }
 
-    @GetMapping("/common/mall/kaptcha")
-    public void mallKaptcha(HttpServletRequest request, HttpServletResponse response) throws Exception {
+    @GetMapping("/common/mall/captcha")
+    public void mallCaptcha(HttpServletRequest request, HttpServletResponse response) throws Exception {
         response.setHeader("Cache-Control", "no-store");
         response.setHeader("Pragma","no-cache");
         response.setDateHeader("Expires", 0);

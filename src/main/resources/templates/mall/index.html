@@ -14,14 +14,6 @@
                 font-size: 3.5rem;
             }
         }
-
-        /*#carouselImg img {*/
-        /*    position: center;*/
-        /*}*/
-        #containerIndex {
-            position: fixed;
-            margin-top: 500px;
-        }
     </style>
     <title></title>
 
@@ -41,7 +33,7 @@
         </ol>
         <div class="carousel-inner">
             <th:block th:if="${carousels != null and !#lists.isEmpty(carousels)}">
-                <div class="carousel-item active" th:each="carousel:${carousels}" style="height: 700px">
+                <div class="carousel-item" th:each="carousel, stat : ${carousels}" th:classappend="${stat.index == 0} ? 'active' : ''" style="height: 700px">
                     <a th:href="@{'/products/' + ${carousel.goodsId}}" class="bd-placeholder-img">
                         <img th:src="@{${carousel.goodsCoverImg}}" style="float: left; list-style: none; position: relative; width: 100%; height: 680px" alt="...">
                     </a>
@@ -75,16 +67,16 @@
             <span class="visually-hidden">Next</span>
         </a>
 
-<!--        <div style="text-align: center;"><h3>View Details</h3></div>-->
+        <div style="text-align: center;"><h5>View Details</h5></div>
     </div>
 <!--    <hr>-->
     <div class="container marketing" >
         <!-- Three columns of text below the carousel -->
         <div class="row">
             <th:block th:if="${products != null and !#lists.isEmpty(products)}">
-                <div class="col-lg-4" th:each="product : ${products}" id="indexImg">
+                <div class="col-lg-4 indexImg" th:each="product : ${products}">
                     <a th:href="@{'/products/' + ${product.goodsId}}">
-                        <img  width="200" height="200" th:src="@{${product.goodsCoverImg}}">
+                        <img  style="width:330px;height:330px" th:src="@{${product.goodsCoverImg}}">
                         <h2 th:text="${product.goodsName}">Heading</h2>
                     </a>
                 </div>
@@ -115,10 +107,10 @@
         <!-- START THE FEATURETTES -->
         <hr >
         <th:block th:if="${goods != null and !#lists.isEmpty(goods)}">
-            <div class="row featurette" th:each="good : ${goods}">
+            <div class="row featured" th:each="good : ${goods}">
                 <div class="col-md-7">
                     <a th:href="@{'/products/' + ${good.goodsId}}">
-                        <h2 class="featurette-heading" th:text="${good.goodsName}">First featurette heading. <span
+                        <h2 class="featured-heading" th:text="${good.goodsName}">First featurette heading. <span
                                 class="text-muted">It’ll blow your mind.</span></h2>
                         <br>
                         <p class="lead" th:text="${good.goodsInfo}">Donec ullamcorper nulla non metus auctor fringilla. Vestibulum id ligula porta felis
@@ -126,10 +118,10 @@
                             tellus ac cursus commodo.</p>
                     </a>
                 </div>
-                <div class="col-md-5" id="carouselImg">
+                <div class="col-md-5 featured">
                     <a th:href="@{'/products/' + ${good.goodsId}}">
-                        <img  class="bd-placeholder-img bd-placeholder-img-lg featurette-image img-fluid mx-auto"
-                              th:src="@{${good.goodsCoverImg}}" style="height: 400px; width: 400px" alt=""/>
+                        <img  class="bd-placeholder-img bd-placeholder-img-lg featured-image img-fluid mx-auto"
+                              th:src="@{${good.goodsCoverImg}}" style="height: 350px; width: 350px" alt=""/>
                     </a>
                 </div>
 
@@ -156,7 +148,6 @@
                               src="./mall/image/20231212_1610372.png" style="height: 400px; width: 400px" alt=""/>
                     </a>
                 </div>
-
                 <div><hr></div>
             </div>
             <div class="row featurette">
@@ -197,7 +188,7 @@
                     </a>
                 </div>
 
-                <div><hr></div>
+
             </div>
         </th:block>
     </div>

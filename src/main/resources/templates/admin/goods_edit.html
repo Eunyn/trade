@@ -46,7 +46,7 @@
                                        required="true">
                                 &nbsp;&nbsp;
                                 <input type="text" class="form-control col-sm-6" id="goodsInfo" name="goodsInfo"
-                                       placeholder="请输入商品简介(100字以内)"
+                                       placeholder="请输入商品简介(200字以内)"
                                        th:value="${goods != null and goods.goodsInfo != null }?${goods.goodsInfo}: ''"
                                        required="true">
                             </div>
@@ -55,6 +55,7 @@
                                        placeholder="请输入商品颜色"
                                        th:value="${goods != null and goods.goodsColor != null } ? ${goods.goodsColor}: ''"
                                        required="true">
+                                &nbsp;&nbsp;
                                 <input type="text" class="form-control col-sm-6" id="goodsSize"
                                        name="goodsSize"
                                        placeholder="请输入商品尺寸"

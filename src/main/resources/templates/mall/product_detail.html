@@ -49,14 +49,13 @@
 
     /* ul ol 样式 */
     ul, ol {
-        margin: 10px 0 10px 20px;
+        margin: 10px 0 10px 0;
     }
 </style>
 <body>
 <header th:replace="mall/header::header-fragment"></header>
 <div class="container">
     <div class="row">
-        <hr class="featurette-divider">
         <div class="col-xs-12 col-sm-4 col-md-3">
             <div class="left_nav" id="categories">
                 <h2 class="left_h">Categories</h2>
@@ -69,7 +68,7 @@
                 <div class="col-sm-12 col-md-6 showpic_box">
                     <div class="bx-wrapper" style="max-width: 100%">
                         <div class="bx-viewport"
-                             style="width: 100%; overflow: hidden; position: relative; height: 340px;">
+                             style="width: 400px; overflow: hidden; position: relative; height: 340px;">
                             <ul class="showpic_flash">
                                 <li><img th:src="@{${details.goodsCoverImg}}"></li>
                             </ul>
@@ -81,19 +80,19 @@
                     <h1 th:text="${details.goodsName}"></h1>
                     <ul class="product_info">
                         <th:block th:if="${details.goodsColor != null }">
-                            <li>Color: <span th:text="${details.goodsColor}"></span></li>
+                            <li><strong>Color: </strong><span th:text="${details.goodsColor}"></span></li>
                         </th:block>
                         <th:block th:if="${details.goodsSize != null }">
-                            <li>Size: <span th:text="${details.goodsSize}"></span></li>
+                            <li><strong>Size: </strong><span th:text="${details.goodsSize}"></span></li>
                         </th:block>
                         <th:block th:if="${details.goodsMaterial != null }">
-                            <li>Material: <span th:text="${details.goodsMaterial}"></span></li>
+                            <li><strong>Material: </strong><span th:text="${details.goodsMaterial}"></span></li>
                         </th:block>
                         <th:block th:if="${details.goodsPrice != null }">
-                            <li>Price: <span th:text="${details.goodsPrice}"></span></li>
+                            <li><strong>Price: </strong><span th:text="${details.goodsPrice}"></span></li>
                         </th:block>
                         <th:block th:if="${details.goodsInfo != null }">
-                            <li>Introduction: <span th:text="${details.goodsInfo}"></span></li>
+                            <li><strong>Introduction: </strong><span th:text="${details.goodsInfo}"></span></li>
                         </th:block>
                         <li>
                             <input type="hidden" th:value="${details.goodsId}">
@@ -172,8 +171,8 @@
                                        placeholder="请输入验证码" required="true">
                             </div>
                             <div class="col-6">
-                                <img id="kaptchaImage" alt="单击图片刷新！" class="pointer"
-                                     onclick="refreshKaptcha()">
+                                <img id="captchaImage" alt="单击图片刷新！" class="pointer"
+                                     onclick="refreshCaptcha()">
                             </div>
                         </div>
                     </form>

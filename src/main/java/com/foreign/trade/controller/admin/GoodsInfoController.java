@@ -28,6 +28,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @Author: Eun
@@ -234,6 +236,9 @@ public class GoodsInfoController {
     private void deleteUploadImg(Integer[] goodsIds) {
         for (Integer goodsId : goodsIds) {
             GoodsInfo goodsInfo = goodsInfoService.selectByPrimaryKey(goodsId);
+            // 删除商品详图
+            deleteDetailImg(goodsInfo.getGoodsDetails());
+            // 删除商品主图
             String imagePath = goodsInfo.getGoodsCoverImg();
             if (imagePath != null && !imagePath.isEmpty()) {
                 String[] imgPathPart = imagePath.split("/");
@@ -245,6 +250,22 @@ public class GoodsInfoController {
                     boolean delete = imgFile.delete();
                     logger.info("删除状态：{}", delete);
                 }
+            }
+        }
+    }
+
+    private void deleteDetailImg(String detailContents) {
+        if (!StringUtils.hasLength(detailContents))
+            return;
+
+        Pattern pattern = Pattern.compile("(?i)src\\s*=\\s*\"([^\"]+)\"");
+        Matcher matcher = pattern.matcher(detailContents);
+        while (matcher.find()) {
+            String group = matcher.group(1);
+            String imagePath = Constants.FILE_UPLOAD_DIC_DETAILS + group.split("/")[3];
+            File imgFile = new File(imagePath);
+            if (imgFile.exists() && imgFile.isFile()) {
+                boolean delete = imgFile.delete();
             }
         }
     }

@@ -8,7 +8,8 @@
     </resultMap>
 
     <sql id="Base_Column_List">
-        admin_user_id, user_name, user_password
+        admin_user_id
+        , user_name, user_password
     </sql>
 
     <select id="login" resultMap="BaseResultMap">
@@ -18,10 +19,20 @@
         where user_name = #{userName} and user_password = #{userPassword}
     </select>
 
-    <select id="selectByName">
+    <select id="selectByName" resultMap="BaseResultMap">
         select
         <include refid="Base_Column_List"/>
         from tb_goods_admin
         where user_name = #{userName}
     </select>
+
+    <update id="updatePassword" parameterType="GoodsAdmin">
+        update tb_goods_admin
+        <set>
+                <if test="userPassword != null">
+                    user_password = #{userPassword}
+                </if>
+        </set>
+        where user_name = #{userName}
+    </update>
 </mapper>

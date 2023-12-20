@@ -13,8 +13,8 @@ import java.net.URI;
  **/
 public class Constants {
     
-    public static final String FILE_UPLOAD_DIC = "E:/upload/";  // 上传文件总位置
-//    public static final String FILE_UPLOAD_DIC = "/home/euny/document/upload/";  // 上传文件总位置
+//    public static final String FILE_UPLOAD_DIC = "E:/upload/";  // 上传文件总位置
+    public static final String FILE_UPLOAD_DIC = "/home/euny/document/upload/";  // 上传文件总位置
     public final static String FILE_UPLOAD_DIC_MAIN = FILE_UPLOAD_DIC + "main/"; // 上传文件主图位置
     public final static String FILE_UPLOAD_DIC_DETAILS = FILE_UPLOAD_DIC + "details/"; // 上传文件详情图位置
     public final static Integer GOODS_SEARCH_PAGE_LIMIT = 8; // 搜索分页默认条数， 每页 8 条

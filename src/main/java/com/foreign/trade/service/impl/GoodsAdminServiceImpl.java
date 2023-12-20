@@ -32,6 +32,11 @@ public class GoodsAdminServiceImpl implements GoodsAdminService {
 
     @Override
     public GoodsAdmin selectByName(String userName) {
-        return null;
+        return goodsAdminMapper.selectByName(userName);
+    }
+
+    @Override
+    public int updatePassword(GoodsAdmin admin) {
+        return goodsAdminMapper.updatePassword(admin);
     }
 }
