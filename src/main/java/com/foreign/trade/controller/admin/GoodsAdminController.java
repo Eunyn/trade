@@ -6,6 +6,8 @@ import com.foreign.trade.service.GoodsAdminService;
 import com.foreign.trade.service.RedisService;
 import com.foreign.trade.util.Result;
 import com.foreign.trade.util.ResultGenerator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -31,6 +33,8 @@ public class GoodsAdminController {
     @Resource
     private GoodsAdminService goodsAdminService;
 
+    private final Logger logger = LoggerFactory.getLogger(GoodsAdminController.class);
+
     @GetMapping("/login")
     public String login() {
         return "admin/login";
@@ -50,7 +54,7 @@ public class GoodsAdminController {
                         @RequestParam("userPassword") String userPassword,
                         @RequestParam("verifyCode") String verifyCode,
                         HttpSession session) {
-
+        logger.info("用户--{{}}--尝试登录",userName);
 
         if (!StringUtils.hasLength(verifyCode)) {
             session.setAttribute("errorMsg", "验证码不能为空");
@@ -78,9 +82,11 @@ public class GoodsAdminController {
             session.setAttribute("loginUser", goodsAdmin.getUserName());
             session.setAttribute("loginUserId", goodsAdmin.getAdminUserId());
             session.setMaxInactiveInterval(2 * 60 * 60);
+            logger.info("用户--{{}}--登录成功",userName);
             return "redirect:/admin/index";
         } else {
             session.setAttribute("errorMsg", "账号或密码错误");
+            logger.info("用户--{{}}--登录失败",userName);
             return "admin/login";
         }
     }

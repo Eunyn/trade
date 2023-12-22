@@ -8,8 +8,8 @@
 
     <!-- File Appender -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-<!--        <file>E:/logs/application.log</file>-->
-        <file>/home/euny/document/logs/application.log</file>
+<!--        <file>${logging.file.path}/${logging.file.name}</file>-->
+<!--        <file>/home/euny/document/logs/application.log</file>-->
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
             <charset>UTF-8</charset>
@@ -18,7 +18,7 @@
         <!-- Define Rolling Policy -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- Rollover daily and keep 7 days' worth of history -->
-            <fileNamePattern>logs/application-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>E:/logs/application-%d{yyyy-MM-dd}.log</fileNamePattern>
             <totalSizeCap>128MB</totalSizeCap>
             <maxHistory>7</maxHistory>
         </rollingPolicy>

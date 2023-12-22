@@ -37,6 +37,7 @@ import java.util.concurrent.ExecutionException;
  * @CreateTime: 2023/11/28 22:26:00
  **/
 @Controller
+@RequestMapping("/mall")
 public class IndexController {
 
     final private Logger logger = LoggerFactory.getLogger(IndexController.class);

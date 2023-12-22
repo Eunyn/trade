@@ -8,6 +8,7 @@ import com.foreign.trade.util.PageResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -20,7 +21,7 @@ import java.util.List;
 @Service
 public class GoodsInquiryServiceImpl implements GoodsInquiryService {
 
-    @Autowired
+    @Resource
     private GoodsInquiryMapper goodsInquiryMapper;
 
     @Override

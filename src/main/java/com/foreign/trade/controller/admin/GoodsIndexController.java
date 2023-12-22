@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
 import java.time.Year;
@@ -28,7 +29,7 @@ public class GoodsIndexController {
 
     private final static Logger logger = LoggerFactory.getLogger(GoodsIndexController.class);
 
-    @Autowired
+    @Resource
     private RedisService redisService;
 
     @GetMapping("/accessCount")

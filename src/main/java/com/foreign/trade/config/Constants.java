@@ -1,7 +1,11 @@
 package com.foreign.trade.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import javax.annotation.Resource;
 import java.net.URI;
 
 /**
@@ -12,22 +16,13 @@ import java.net.URI;
  * @CreateTime: 2023/12/1 19:07:00
  **/
 public class Constants {
-    
-//    public static final String FILE_UPLOAD_DIC = "E:/upload/";  // 上传文件总位置
-    public static final String FILE_UPLOAD_DIC = "/home/euny/document/upload/";  // 上传文件总位置
+
+    public final static String FILE_UPLOAD_DIC = "E:/upload/";  // 上传文件总位置
+//    public static final String FILE_UPLOAD_DIC = "/home/euny/document/upload/";  // 上传文件总位置
     public final static String FILE_UPLOAD_DIC_MAIN = FILE_UPLOAD_DIC + "main/"; // 上传文件主图位置
     public final static String FILE_UPLOAD_DIC_DETAILS = FILE_UPLOAD_DIC + "details/"; // 上传文件详情图位置
     public final static Integer GOODS_SEARCH_PAGE_LIMIT = 8; // 搜索分页默认条数， 每页 8 条
     public final static String ACCESS_DAILY = "access:daily:";
-
-    public static URI getHost(URI uri) {
-        URI effectiveURI = null;
-        try {
-            effectiveURI = new URI(uri.getScheme(), uri.getUserInfo(), uri.getHost(), uri.getPort(), null, null, null);
-        } catch (Throwable ignored) {
-        }
-        return effectiveURI;
-    }
 
     public static String cleanString(String value) {
         if (!StringUtils.hasLength(value)) {

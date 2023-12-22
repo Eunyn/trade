@@ -34,7 +34,7 @@
         <div class="carousel-inner">
             <th:block th:if="${carousels != null and !#lists.isEmpty(carousels)}">
                 <div class="carousel-item" th:each="carousel, stat : ${carousels}" th:classappend="${stat.index == 0} ? 'active' : ''" style="height: 700px">
-                    <a th:href="@{'/products/' + ${carousel.goodsId}}" class="bd-placeholder-img">
+                    <a th:href="@{'/mall/products/' + ${carousel.goodsId}}" class="bd-placeholder-img">
                         <img th:src="@{${carousel.goodsCoverImg}}" style="float: left; list-style: none; position: relative; width: 100%; height: 680px" alt="...">
                     </a>
                 </div>
@@ -75,7 +75,7 @@
         <div class="row">
             <th:block th:if="${products != null and !#lists.isEmpty(products)}">
                 <div class="col-lg-4 indexImg" th:each="product : ${products}">
-                    <a th:href="@{'/products/' + ${product.goodsId}}">
+                    <a th:href="@{'/mall/products/' + ${product.goodsId}}">
                         <img  style="width:330px;height:330px" th:src="@{${product.goodsCoverImg}}">
                         <h2 th:text="${product.goodsName}">Heading</h2>
                     </a>
@@ -109,7 +109,7 @@
         <th:block th:if="${goods != null and !#lists.isEmpty(goods)}">
             <div class="row featured" th:each="good : ${goods}">
                 <div class="col-md-7">
-                    <a th:href="@{'/products/' + ${good.goodsId}}">
+                    <a th:href="@{'/mall/products/' + ${good.goodsId}}">
                         <h2 class="featured-heading" th:text="${good.goodsName}">First featurette heading. <span
                                 class="text-muted">It’ll blow your mind.</span></h2>
                         <br>
@@ -119,7 +119,7 @@
                     </a>
                 </div>
                 <div class="col-md-5 featured">
-                    <a th:href="@{'/products/' + ${good.goodsId}}">
+                    <a th:href="@{'/mall/products/' + ${good.goodsId}}">
                         <img  class="bd-placeholder-img bd-placeholder-img-lg featured-image img-fluid mx-auto"
                               th:src="@{${good.goodsCoverImg}}" style="height: 350px; width: 350px" alt=""/>
                     </a>

@@ -23,7 +23,7 @@
                 <div class="row row-cols-4" id="shopContainer">
                     <th:block th:if="${pageResult != null}">
                         <div class="col" th:each="good : ${pageResult.list}" id="productImg" style="display: inline-block; width: 33.33%">
-                            <a class="product_name"  th:href="@{'/products/' + ${good.goodsId}}">
+                            <a class="product_name"  th:href="@{'/mall/products/' + ${good.goodsId}}">
                                 <img th:src="@{${good.goodsCoverImg}}">
                                 <p th:text="${good.goodsName}">product</p>
                             </a>
@@ -43,27 +43,27 @@
 
                 <div class="page">
                     <th:block th:if="${null != pageResult and !#lists.isEmpty(pageResult.list)}">
-                        <a th:href="@{${pageResult.currPage == 1}? '##':'/products/category?goodsCategoryId='+${goodsCategoryId == null?1:goodsCategoryId} + '&page='+${pageResult.currPage - 1}}">
+                        <a th:href="@{${pageResult.currPage == 1}? '##':'/mall/products/category?goodsCategoryId='+${goodsCategoryId == null?1:goodsCategoryId} + '&page='+${pageResult.currPage - 1}}">
                             Previous
                         </a>
                         <th:block th:if="${pageResult.currPage - 2 >= 1}">
-                            <a th:href="@{'/products/category?goodsCategoryId='+${goodsCategoryId == null?1:goodsCategoryId} + '&page='+${pageResult.currPage - 2}}"
+                            <a th:href="@{'/mall/products/category?goodsCategoryId='+${goodsCategoryId == null?1:goodsCategoryId} + '&page='+${pageResult.currPage - 2}}"
                                th:text="${pageResult.currPage - 2}">1</a>
                         </th:block>
                         <th:block th:if="${pageResult.currPage - 1 >= 1}">
-                            <a th:href="@{'/products/category?goodsCategoryId='+${goodsCategoryId == null?1:goodsCategoryId} + '&page='+${pageResult.currPage - 1}}"
+                            <a th:href="@{'/mall/products/category?goodsCategoryId='+${goodsCategoryId == null?1:goodsCategoryId} + '&page='+${pageResult.currPage - 1}}"
                                th:text="${pageResult.currPage - 1}">1</a>
                         </th:block>
                         <a href="##" class="current" th:text="${pageResult.currPage}">1</a>
                         <th:block th:if="${pageResult.currPage + 1 <= pageResult.totalPage}">
-                            <a th:href="@{'/products/category?goodsCategoryId='+${goodsCategoryId == null?1:goodsCategoryId} + '&page='+${pageResult.currPage + 1}}"
+                            <a th:href="@{'/mall/products/category?goodsCategoryId='+${goodsCategoryId == null?1:goodsCategoryId} + '&page='+${pageResult.currPage + 1}}"
                                th:text="${pageResult.currPage + 1}">1</a>
                         </th:block>
                         <th:block th:if="${pageResult.currPage + 2 <= pageResult.totalPage}">
-                            <a th:href="@{'/products/category?goodsCategoryId='+${goodsCategoryId == null?1:goodsCategoryId} + '&page='+${pageResult.currPage + 2}}"
+                            <a th:href="@{'/mall/products/category?goodsCategoryId='+${goodsCategoryId == null?1:goodsCategoryId} + '&page='+${pageResult.currPage + 2}}"
                                th:text="${pageResult.currPage + 2}">1</a>
                         </th:block>
-                        <a th:href="@{${pageResult.currPage >= pageResult.totalPage}? '##':'/products/category?goodsCategoryId='+${goodsCategoryId == null?1:goodsCategoryId} + '&page='+${pageResult.currPage+1}}">
+                        <a th:href="@{${pageResult.currPage >= pageResult.totalPage}? '##':'/mall/products/category?goodsCategoryId='+${goodsCategoryId == null?1:goodsCategoryId} + '&page='+${pageResult.currPage+1}}">
                             Next
                         </a>
                     </th:block>

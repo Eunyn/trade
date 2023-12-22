@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.support.StandardServletMultipartResolver;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.io.File;
 import java.io.IOException;
@@ -33,7 +34,7 @@ import java.util.*;
 @RequestMapping("/admin")
 public class UploadController {
 
-    @Autowired
+    @Resource
     private StandardServletMultipartResolver servletMultipartResolver;
 
     @PostMapping("/upload/file")

@@ -30,7 +30,7 @@ $('#sendInquiry').click(function () {
         return;
     }
 
-    const url = '/inquiry?verifyCode=' + verifyCode;
+    const url = '/mall/inquiry?verifyCode=' + verifyCode;
     const swlMessage = 'Send Success';
     const data = {
         "goodsId": goodsId,
@@ -60,7 +60,7 @@ $('#sendInquiry').click(function () {
                     confirmButtonClass: 'btn btn-success',
                     buttonsStyling: false
                 }).then(function () {
-                    window.location.href = "/products"
+                    window.location.href = "/mall/products"
                 })
             } else {
                 swal(result.message, {
@@ -82,7 +82,7 @@ $(function () {
         if (key === 13) {
             const searchValue = $(this).val();
             if (searchValue && searchValue !== '') {
-                window.location.href = '/search?keyword=' + searchValue;
+                window.location.href = '/mall/search?keyword=' + searchValue;
             }
         }
     })
@@ -96,7 +96,7 @@ function search() {
         });
     }
 
-    window.location.href = '/search?keyword=' + searchValue;
+    window.location.href = '/mall/search?keyword=' + searchValue;
 }
 
 $('#inquiryButton').click(function (){

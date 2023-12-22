@@ -28,7 +28,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         String remoteAddr = request.getRemoteAddr();
         logger.info("登录IP：{}", remoteAddr);
         logger.info("登录URL：{}", request.getRequestURL());
-        logger.info("登录失败");
+
         response.sendRedirect("/admin/login");
     }
 }

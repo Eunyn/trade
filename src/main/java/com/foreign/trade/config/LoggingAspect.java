@@ -17,7 +17,6 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
-import java.util.Arrays;
 
 /**
  * @Author: Eun
@@ -31,8 +30,6 @@ import java.util.Arrays;
 public class LoggingAspect {
 
     private final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
-
-    private Long startTime;
 
     @Autowired
     private RedisService redisService;
@@ -49,7 +46,6 @@ public class LoggingAspect {
     public void logBeforeMethodExecution(JoinPoint joinPoint) {
         HttpServletRequest request = getRequest();
 
-        startTime = System.currentTimeMillis();
         logger.info("Request URL: {}", request.getRequestURL().toString());
         logger.info("Request IP: {}", request.getRemoteAddr());
         logger.info("Request Parameter: {}", joinPoint.getArgs());
@@ -78,8 +74,6 @@ public class LoggingAspect {
             redisService.incrementProductInquiryCount(sendResult);
         }
 
-        Long endTime = System.currentTimeMillis();
-        logger.info("Time token to execute: {}", endTime - startTime);
         logger.info("Returned value: {}", result);
     }
 

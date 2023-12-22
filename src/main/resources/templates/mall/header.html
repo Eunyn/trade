@@ -14,20 +14,20 @@
 <header th:fragment="header-fragment">
     <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
         <div class="container-fluid">
-            <a class="navbar-brand" th:href="@{/index}">HopeTree</a>
+            <a class="navbar-brand" th:href="@{/mall/index}">HopeTree</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <ul class="navbar-nav me-auto mb-2 mb-md-0">
                     <li class="nav-item active">
-                        <a class="nav-link" aria-current="page" th:href="@{/index}">Home</a>
+                        <a class="nav-link" aria-current="page" th:href="@{/mall/index}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/products}">Product</a>
+                        <a class="nav-link" th:href="@{/mall/products}">Product</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" th:href="@{/about}">About Us</a>
+                        <a class="nav-link" th:href="@{/mall/about}">About Us</a>
                     </li>
 <!--                    <li class="nav-item">-->
 <!--                        <a class="nav-link" href="#">Contact Us</a>-->
@@ -45,7 +45,7 @@
 <aside th:fragment="categories-fragment">
     <th:block th:if="${categories != null and !#lists.isEmpty(categories)}">
         <ul class="left_nav_ul" th:each="category: ${categories}">
-            <li class="nav-item"><a th:href="@{'/products/category?goodsCategoryId=' + ${category.categoryId}}"
+            <li class="nav-item"><a th:href="@{'/mall/products/category?goodsCategoryId=' + ${category.categoryId}}"
                                     th:text="${category.categoryName}" th:class="${currCategory == category.categoryName} ? 'nav-link active': 'biglink'">
                 categories
             </a>

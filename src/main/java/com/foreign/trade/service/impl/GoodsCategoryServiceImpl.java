@@ -24,7 +24,7 @@ import java.util.List;
 @Service
 public class GoodsCategoryServiceImpl implements GoodsCategoryService {
 
-    @Autowired
+    @Resource
     private GoodsCategoryMapper goodsCategoryMapper;
 
     @Override

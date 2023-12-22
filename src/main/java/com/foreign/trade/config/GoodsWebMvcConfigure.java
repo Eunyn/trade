@@ -1,11 +1,12 @@
 package com.foreign.trade.config;
 
 import com.foreign.trade.interceptor.GoodsAdminInterceptor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import javax.annotation.Resource;
 
 /**
  * @Author: Eun
@@ -17,7 +18,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class GoodsWebMvcConfigure implements WebMvcConfigurer {
 
-    @Autowired
+    @Resource
     private GoodsAdminInterceptor goodsAdminInterceptor;
 
     @Override

@@ -27,6 +27,6 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
         logger.info("注销成功");
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(HttpStatus.OK.value());
-//        response.sendRedirect("/admin/login");
+        response.sendRedirect("/admin/login");
     }
 }

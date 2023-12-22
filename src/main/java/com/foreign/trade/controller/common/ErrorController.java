@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
@@ -22,7 +23,7 @@ public class ErrorController implements ErrorViewResolver {
 
     private static ErrorController errorController;
 
-    @Autowired
+    @Resource
     ErrorAttributes errorAttributes;
 
     public ErrorController(ErrorAttributes errorAttributes) {

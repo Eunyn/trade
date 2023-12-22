@@ -6,6 +6,8 @@ import com.foreign.trade.service.GoodsAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
+
 /**
  * @Author: Eun
  * @Version 1.0.0
@@ -16,7 +18,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class GoodsAdminServiceImpl implements GoodsAdminService {
 
-    @Autowired
+    @Resource
     private GoodsAdminMapper goodsAdminMapper;
 
     @Override
