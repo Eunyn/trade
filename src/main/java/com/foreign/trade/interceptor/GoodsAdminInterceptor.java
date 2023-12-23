@@ -1,7 +1,9 @@
 package com.foreign.trade.interceptor;
 
+import com.foreign.trade.service.RedisService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -21,17 +23,21 @@ public class GoodsAdminInterceptor implements HandlerInterceptor {
 
     private static final Logger logger = LoggerFactory.getLogger(GoodsAdminInterceptor.class);
 
+    @Autowired
+    private RedisService redisService;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-//        String servletPath = request.getServletPath();
-//        if (servletPath.startsWith("/admin") && null == request.getSession().getAttribute("loginUserId")) {
-//            request.getSession().setAttribute("errorMsg", "Please log in");
-//            response.sendRedirect(request.getContextPath() + "/admin/login");
-//            return false;
-//        } else {
-//            request.getSession().removeAttribute("errorMsg");
-//            return true;
-//        }
+        String ipAddress = request.getRemoteAddr();
+
+        if (redisService.isExistUnknownIP(ipAddress)) {
+            logger.info("The banned IP: {{}} tries to log in again.", ipAddress);
+
+            response.sendRedirect("/error/error_404");
+
+            return false;
+        }
+
         return true;
     }
 

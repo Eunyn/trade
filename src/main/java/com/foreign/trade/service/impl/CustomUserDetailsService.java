@@ -22,7 +22,6 @@ import java.util.Collections;
  * @Description: TODO
  * @CreateTime: 2023/12/21 13:16:00
  **/
-//@Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     final private static Logger logger = LoggerFactory.getLogger(CustomUserDetailsService.class);
@@ -30,19 +29,15 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Resource
     private GoodsAdminService goodsAdminService;
 
-//    @Resource
     private final PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        logger.info("用户名：{}", username);
+        logger.info("User--{{}}--attempts to login.", username);
         GoodsAdmin goodsAdmin = goodsAdminService.selectByName(username);
         if (goodsAdmin == null) {
-            logger.info("登录失败，没有此用户。");
-//            throw new UsernameNotFoundException("没有该用户");
-            goodsAdmin = new GoodsAdmin();
-            goodsAdmin.setUserPassword("123456");
-            goodsAdmin.setUserName("admin");
+//            logger.info("登录失败，没有此用户。");
+            throw new UsernameNotFoundException("Login fail, no such user.");
         }
 
         return new User(goodsAdmin.getUserName(), passwordEncoder.encode(goodsAdmin.getUserPassword()), Collections.emptyList());

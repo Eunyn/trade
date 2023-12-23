@@ -35,7 +35,7 @@ public class WebSecurityConfig {
     @Resource
     private LoginFailureHandler failureHandler;
 
-    public static final String[] whitelist = {"/admin/login", "/common/**", "/error/**", "/mall/**", "/upload/**"};
+    public static final String[] whitelist = {"/", "/admin/login", "/common/**", "/error/**", "/mall/**", "/upload/**"};
 
 //    @Override
 //    protected void configure(HttpSecurity http) throws Exception {
@@ -95,7 +95,7 @@ public class WebSecurityConfig {
 
     @Bean
     public WebSecurityCustomizer securityCustomizer() {
-        return (web) -> web.ignoring().antMatchers("/admin/css/**", "/admin/js/**", "/admin/fonts/**", "/mall/**", "/common/**");
+        return (web) -> web.ignoring().antMatchers("/admin/css/**", "/admin/js/**", "/admin/fonts/**", "/admin/img/**");
     }
 
     @Bean

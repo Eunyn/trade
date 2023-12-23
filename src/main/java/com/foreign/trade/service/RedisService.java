@@ -28,4 +28,8 @@ public interface RedisService {
     String getAccessCounts(String key);
 
     void deleteKeyByProduct(String productName);
+
+    void addUnknownIP(String ip);
+
+    boolean isExistUnknownIP(String ip);
 }

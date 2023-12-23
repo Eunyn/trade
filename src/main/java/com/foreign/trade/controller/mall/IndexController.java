@@ -2,7 +2,6 @@ package com.foreign.trade.controller.mall;
 
 import cn.hutool.captcha.ShearCaptcha;
 import com.foreign.trade.config.Constants;
-import com.foreign.trade.config.MailProperties;
 import com.foreign.trade.entity.GoodsCategory;
 import com.foreign.trade.entity.GoodsInfo;
 import com.foreign.trade.entity.GoodsInquiry;
@@ -16,7 +15,6 @@ import com.foreign.trade.util.PatternUtil;
 import com.foreign.trade.util.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
@@ -24,7 +22,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -37,10 +34,13 @@ import java.util.concurrent.ExecutionException;
  * @CreateTime: 2023/11/28 22:26:00
  **/
 @Controller
-@RequestMapping("/mall")
 public class IndexController {
 
     final private Logger logger = LoggerFactory.getLogger(IndexController.class);
+
+    private final Map<String, Integer> inquiryCount = new HashMap<>();
+
+    private final Map<String, Long> inquiryIntervalTime = new HashMap<>();
 
     @Resource
     GoodsCategoryService goodsCategoryService;
@@ -54,7 +54,7 @@ public class IndexController {
     @Resource
     private EmailService emailService;
 
-    @GetMapping({"","/index"})
+    @GetMapping({"", "/mall/index"})
     public String indexPage(HttpServletRequest request) {
         // 首页默认显示数据库内前 12 条商品
 
@@ -86,7 +86,7 @@ public class IndexController {
         return "mall/index";
     }
 
-    @GetMapping("/search")
+    @GetMapping("/mall/search")
     public String searchPage(@RequestParam Map<String, Object> params, HttpServletRequest request) {
         if (!StringUtils.hasLength((String) params.get("page"))) {
             params.put("page", 1);
@@ -109,14 +109,14 @@ public class IndexController {
         return "mall/search";
     }
 
-    @PostMapping("/inquiry")
+    @PostMapping("/mall/inquiry")
     @ResponseBody
-    public CompletableFuture<Result> inquiryAsync(HttpServletRequest request, HttpSession session, @RequestBody GoodsInquiry goodsInquiry, @RequestParam("verifyCode") String verifyCode) {
+    public CompletableFuture<Result> inquiryAsync(HttpServletRequest request, @RequestBody GoodsInquiry goodsInquiry, @RequestParam("verifyCode") String verifyCode) {
         request.setAttribute("sendResult", goodsInquiry.getGoodsName());
-        return CompletableFuture.supplyAsync(()->inquiry(session, goodsInquiry, verifyCode));
+        return CompletableFuture.supplyAsync(() -> inquiry(request, goodsInquiry, verifyCode));
     }
 
-    public Result inquiry(HttpSession session, @RequestBody GoodsInquiry goodsInquiry, @RequestParam("verifyCode") String verifyCode) {
+    public Result inquiry(HttpServletRequest request, @RequestBody GoodsInquiry goodsInquiry, @RequestParam("verifyCode") String verifyCode) {
         if (goodsInquiry == null || goodsInquiry.getGoodsName() == null) {
             return new Result(404, "Data is null.");
         }
@@ -124,24 +124,30 @@ public class IndexController {
             return new Result(404, "The email format is not correct.");
         }
 
-        ShearCaptcha shearCaptcha = (ShearCaptcha) session.getAttribute("mallVerifyCode");
+        ShearCaptcha shearCaptcha = (ShearCaptcha) request.getSession().getAttribute("mallVerifyCode");
         if (shearCaptcha == null) {
-            session.setAttribute("errorMas", "VerifyCode is null");
+            request.getSession().setAttribute("errorMsg", "VerifyCode is null");
             return new Result(404, "VerifyCode is null");
         }
         if (!shearCaptcha.getCode().equals(verifyCode)) {
-            session.setAttribute("errorMsg", "VerifyCode error");
+            request.getSession().setAttribute("errorMsg", "VerifyCode error");
             return new Result(404, "VerifyCode error");
         }
 
-//        logger.info("Inquiry: {}", goodsInquiry);
+        // 限制 INQUIRY 太过频繁用户，默认 1 分钟三次
+        String ipAddress = request.getRemoteAddr();
+        if (isRateLimited(ipAddress)) {
+            return new Result(404, "INQUIRY is too frequent, please try again later.");
+        }
+        updateTimes(ipAddress);
+
         goodsInquiry.setCreateTime(new Date());
 
         String email = goodsInquiry.getEmail();
         String subject = "Inquiry: " + goodsInquiry.getGoodsName();
         String message = getInquiryGoodsInfo(goodsInquiry);
         try {
-            Boolean sendResult = emailService.sendEmailAsync(email, subject, message).get();
+            emailService.sendEmailAsync(email, subject, message).get();
         } catch (MessagingException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
             logger.info("### Send Fail=====");
@@ -155,13 +161,13 @@ public class IndexController {
         return new Result(200, "success");
     }
 
-    @GetMapping("/about")
+    @GetMapping("/mall/about")
     public String toAboutPage(HttpServletRequest request) {
 
         return "mall/about";
     }
 
-    public String getInquiryGoodsInfo(GoodsInquiry goodsInquiry) {
+    private String getInquiryGoodsInfo(GoodsInquiry goodsInquiry) {
         return "Inquiry Information：" +
                 "<br>产品名称：" + goodsInquiry.getGoodsName() +
                 "<br>客户姓名：" + goodsInquiry.getYourName() +
@@ -171,5 +177,33 @@ public class IndexController {
                 "<br>客户传真：" + goodsInquiry.getFax() +
                 "<br>客户邮箱：" + goodsInquiry.getEmail() +
                 "<br>附加信息：" + goodsInquiry.getMessage();
+    }
+
+    private boolean isRateLimited(String ip) {
+        int count = inquiryCount.getOrDefault(ip, 0);
+        long startTime = inquiryIntervalTime.getOrDefault(ip, 0L);
+        long currTime = System.currentTimeMillis();
+        long interval = (currTime - startTime) / 1000; // 转换成秒数
+
+        return count >= Constants.INQUIRY_RATE && interval <= Constants.INTERVAL_TIME;
+    }
+
+    private void updateTimes(String ip) {
+        int count = inquiryCount.getOrDefault(ip, 0);
+        if (count == 0) {
+            inquiryIntervalTime.put(ip, System.currentTimeMillis());
+        } else {
+            Long currTime = System.currentTimeMillis();
+            Long startTime = inquiryIntervalTime.get(ip);
+            long interval = (currTime - startTime) / 1000;
+
+            if (count >= Constants.INQUIRY_RATE || interval > Constants.INTERVAL_TIME) {
+                inquiryCount.put(ip, 0);
+                inquiryIntervalTime.put(ip, System.currentTimeMillis());
+                count = 0;
+            }
+        }
+
+        inquiryCount.put(ip, count + 1);
     }
 }

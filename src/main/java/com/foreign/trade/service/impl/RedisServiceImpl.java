@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: Eun
@@ -31,7 +32,9 @@ public class RedisServiceImpl implements RedisService {
 
     private static final String PRODUCT_INQUIRY_KEY = "product_inquiry";
 
-    @Resource
+    private static final String UNKNOWN_IP_ATTEMPT_LOGIN = "unknown_ip_attempt_login:";
+
+    @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
     @Override
@@ -48,7 +51,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public void incrementProductVisitCount(String productName) {
-        redisTemplate.opsForZSet().incrementScore(PRODUCT_VISIT_KEY,String.valueOf(productName), 1);
+        redisTemplate.opsForZSet().incrementScore(PRODUCT_VISIT_KEY, String.valueOf(productName), 1);
     }
 
     @Override
@@ -71,7 +74,7 @@ public class RedisServiceImpl implements RedisService {
     @Override
     public Map<Object, Double> getTopProductInquiries(int count) {
         Set<ZSetOperations.TypedTuple<String>> typedTuples = redisTemplate.opsForZSet().reverseRangeWithScores(PRODUCT_INQUIRY_KEY, 0, count - 1);
-        Map<Object, Double> result = new HashMap<>();
+        Map<Object, Double> result = new LinkedHashMap<>();
         assert typedTuples != null;
         for (ZSetOperations.TypedTuple<String> tuple : typedTuples) {
             result.put(tuple.getValue(), tuple.getScore());
@@ -90,7 +93,7 @@ public class RedisServiceImpl implements RedisService {
 
     @Override
     public String getAccessCounts(String key) {
-        return redisTemplate.opsForValue().get(key) != null ? redisTemplate.opsForValue().get(key): "0";
+        return redisTemplate.opsForValue().get(key) != null ? redisTemplate.opsForValue().get(key) : "0";
     }
 
     @Override
@@ -98,4 +101,18 @@ public class RedisServiceImpl implements RedisService {
         redisTemplate.opsForZSet().remove(PRODUCT_INQUIRY_KEY, productName);
         redisTemplate.opsForZSet().remove(PRODUCT_VISIT_KEY, productName);
     }
+
+    @Override
+    public void addUnknownIP(String ip) {
+        redisTemplate.opsForValue().set(UNKNOWN_IP_ATTEMPT_LOGIN + ip, "unknown ip");
+        // 当未知 IP 尝试登录失败后存入 redis，15天内不能再访问登录链接
+        redisTemplate.expire(UNKNOWN_IP_ATTEMPT_LOGIN + ip, 15, TimeUnit.DAYS);
+    }
+
+    @Override
+    public boolean isExistUnknownIP(String ip) {
+        return Boolean.TRUE.equals(redisTemplate.hasKey(UNKNOWN_IP_ATTEMPT_LOGIN + ip));
+    }
+
+
 }

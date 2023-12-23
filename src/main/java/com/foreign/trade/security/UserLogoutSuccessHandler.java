@@ -24,7 +24,7 @@ public class UserLogoutSuccessHandler implements LogoutSuccessHandler {
     final private static Logger logger = LoggerFactory.getLogger(UserLogoutSuccessHandler.class);
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-        logger.info("注销成功");
+        logger.info("User logout success.");
         response.setContentType("application/json;charset=UTF-8");
         response.setStatus(HttpStatus.OK.value());
         response.sendRedirect("/admin/login");

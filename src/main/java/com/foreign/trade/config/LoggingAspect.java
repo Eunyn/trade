@@ -15,8 +15,10 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDate;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Author: Eun
@@ -31,7 +33,7 @@ public class LoggingAspect {
 
     private final Logger logger = LoggerFactory.getLogger(LoggingAspect.class);
 
-    @Autowired
+    @Resource
     private RedisService redisService;
 
     @Autowired
@@ -39,7 +41,6 @@ public class LoggingAspect {
 
     @Pointcut("execution(* com.foreign.trade.controller..*.*(..))")
     public void executionPointcut() {
-
     }
 
     @Before("executionPointcut()")
@@ -66,7 +67,11 @@ public class LoggingAspect {
         if (indexPage != null) {
             redisService.incrementAccessCount();
             String currentDate = LocalDate.now().toString();
-            redisTemplate.opsForValue().increment(Constants.ACCESS_DAILY + currentDate);
+            String access = Constants.ACCESS_DAILY + currentDate;
+            Long ttl = redisTemplate.opsForValue().increment(access);
+            if (ttl != null && ttl == -1) {
+                redisTemplate.expire(access, 31, TimeUnit.DAYS);
+            }
         }
         // 统计被 Inquiry 的商品
         String sendResult = (String) request.getAttribute("sendResult");

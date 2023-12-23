@@ -25,6 +25,7 @@ public class GoodsWebMvcConfigure implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(goodsAdminInterceptor)
                 .addPathPatterns("/admin/**")
+                .addPathPatterns("/mall/**")
                 .excludePathPatterns("/admin/login")
                 .excludePathPatterns("/admin/css/*")
                 .excludePathPatterns("/admin/fonts/*")

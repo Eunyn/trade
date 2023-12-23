@@ -5,6 +5,7 @@ import org.springframework.boot.autoconfigure.web.servlet.error.ErrorViewResolve
 import org.springframework.boot.web.servlet.error.ErrorAttributes;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.annotation.Resource;
@@ -44,6 +45,12 @@ public class ErrorController implements ErrorViewResolver {
         } else {
             return new ModelAndView("error/error_5xx");
         }
+    }
+
+    @RequestMapping("/error/error_404")
+    public String handleErrorRequest(HttpServletRequest request) {
+
+        return "/error/error_404";
     }
 
 }

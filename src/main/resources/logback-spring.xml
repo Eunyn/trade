@@ -1,4 +1,9 @@
 <configuration>
+    <!--  logging file path  -->
+    <springProperty scope="context" name="logging.file.path" source="logging.file.path"/>
+    <!--  logging file name  -->
+    <springProperty scope="context" name="logging.file.name" source="logging.file.name"/>
+
     <!-- Console Appender -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
@@ -8,8 +13,6 @@
 
     <!-- File Appender -->
     <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
-<!--        <file>${logging.file.path}/${logging.file.name}</file>-->
-<!--        <file>/home/euny/document/logs/application.log</file>-->
         <encoder>
             <pattern>%d{HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n</pattern>
             <charset>UTF-8</charset>
@@ -18,9 +21,9 @@
         <!-- Define Rolling Policy -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- Rollover daily and keep 7 days' worth of history -->
-            <fileNamePattern>E:/logs/application-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>${logging.file.path}/logs/${logging.file.name}-%d{yyyy-MM-dd}.log</fileNamePattern>
             <totalSizeCap>128MB</totalSizeCap>
-            <maxHistory>7</maxHistory>
+            <maxHistory>30</maxHistory>
         </rollingPolicy>
 
         <triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
