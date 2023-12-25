@@ -56,13 +56,6 @@ public class GoodsInfoController {
     @Resource
     private RedisService redisService;
 
-    @GetMapping("/indexConfig")
-    public String toIndexConfig(HttpServletRequest request) {
-        request.setAttribute("path", "indexConfig");
-
-        return "admin/index_config";
-    }
-
     @GetMapping("/goods")
     public String toGoodsPage(HttpServletRequest request) {
         request.setAttribute("path", "goods");

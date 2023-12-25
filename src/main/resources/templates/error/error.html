@@ -1,26 +1,52 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1"/>
-    <title>ERROR PAGE</title>
-    <link th:href="@{/common/css/error.css}">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Not Found</title>
+    <style>
+        body {
+            background-color: #f8f9fa;
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .emoji {
+            font-size: 4em;
+        }
+
+        h1 {
+            color: #e44d26;
+        }
+
+        p {
+            color: #6c757d;
+            font-size: 1.2em;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<div class="cover">
-    <h1>你的请求出错了</h1>
-    <p th:text="'错误信息：'+${message}" style="color: red;font-weight: 600;"></p>
-    <p th:text="'请求地址：'+${url}"></p>
-    <h2>报告问题</h2>
-    <h2>异常堆栈跟踪日志</h2>
-    <div th:each="string:${stackTrace}">
-        <small>
-            <th:block th:text="${string}"></th:block>
-        </small>
-    </div>
-    <h2>Copy Right</h2>
-    <p th:text="'author：'+${author}" style="color: #1baeae;"></p>
+<div class="container">
+    <div class="emoji">😅</div>
+    <h1>Oops! Page Not Found</h1>
+    <p>Looks like you wandered off the beaten path. Don't worry, even the best get lost sometimes.</p>
+    <p>Let's get you back on track! <a th:href="@{/mall/index}">Go home</a> or try searching for what you're looking for.</p>
 </div>
 </body>
 </html>

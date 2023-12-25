@@ -38,9 +38,7 @@ public class ErrorController implements ErrorViewResolver {
 
     @Override
     public ModelAndView resolveErrorView(HttpServletRequest request, HttpStatus status, Map<String, Object> model) {
-        if (HttpStatus.BAD_REQUEST == status) {
-            return new ModelAndView("error/error_400");
-        } else if (HttpStatus.NOT_FOUND == status) {
+        if (HttpStatus.NOT_FOUND == status) {
             return new ModelAndView("error/error_404");
         } else {
             return new ModelAndView("error/error_5xx");

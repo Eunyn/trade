@@ -11,7 +11,6 @@ import com.foreign.trade.service.GoodsInfoService;
 import com.foreign.trade.service.GoodsInquiryService;
 import com.foreign.trade.util.PageQueryUtil;
 import com.foreign.trade.util.PageResult;
-import com.foreign.trade.util.PatternUtil;
 import com.foreign.trade.util.Result;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -118,26 +117,26 @@ public class IndexController {
 
     public Result inquiry(HttpServletRequest request, @RequestBody GoodsInquiry goodsInquiry, @RequestParam("verifyCode") String verifyCode) {
         if (goodsInquiry == null || goodsInquiry.getGoodsName() == null) {
-            return new Result(404, "Data is null.");
+            return new Result(500, "Data is null.");
         }
-        if (!PatternUtil.isEmail(goodsInquiry.getEmail())) {
-            return new Result(404, "The email format is not correct.");
+        if (!Constants.isEmail(goodsInquiry.getEmail())) {
+            return new Result(500, "The email format is not correct.");
         }
 
         ShearCaptcha shearCaptcha = (ShearCaptcha) request.getSession().getAttribute("mallVerifyCode");
         if (shearCaptcha == null) {
             request.getSession().setAttribute("errorMsg", "VerifyCode is null");
-            return new Result(404, "VerifyCode is null");
+            return new Result(500, "VerifyCode is null");
         }
         if (!shearCaptcha.getCode().equals(verifyCode)) {
             request.getSession().setAttribute("errorMsg", "VerifyCode error");
-            return new Result(404, "VerifyCode error");
+            return new Result(500, "VerifyCode error");
         }
 
         // 限制 INQUIRY 太过频繁用户，默认 1 分钟三次
         String ipAddress = request.getRemoteAddr();
         if (isRateLimited(ipAddress)) {
-            return new Result(404, "INQUIRY is too frequent, please try again later.");
+            return new Result(500, "INQUIRY is too frequent, please try again later.");
         }
         updateTimes(ipAddress);
 
@@ -151,12 +150,12 @@ public class IndexController {
         } catch (MessagingException | InterruptedException | ExecutionException e) {
             e.printStackTrace();
             logger.info("### Send Fail=====");
-            return new Result(404, "Email Send fail.");
+            return new Result(500, "Email Send fail.");
         }
 
         int ret = goodsInquiryService.inquiry(goodsInquiry);
         if (ret == 0)
-            return new Result(404, "Store the record fail.");
+            return new Result(500, "Store the record fail.");
 
         return new Result(200, "success");
     }

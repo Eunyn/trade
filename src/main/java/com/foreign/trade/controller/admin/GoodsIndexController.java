@@ -85,14 +85,6 @@ public class GoodsIndexController {
         return dailyCounts;
     }
 
-    @GetMapping("/test")
-    @ResponseBody
-    public String testRequest(HttpServletRequest request) {
-        request.setAttribute("test", "testRequest");
-
-        return "mall/index";
-    }
-
     private int getDays(LocalDate currentDate) {
         int[] days = {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
         int month = currentDate.getMonthValue();
