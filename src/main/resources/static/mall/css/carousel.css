@@ -1,16 +1,15 @@
+/*carousel.css*/
 body {
   padding-top: 3rem;
   padding-bottom: 3rem;
   color: #5a5a5a;
 }
 
-/* CUSTOMIZE THE CAROUSEL
--------------------------------------------------- */
-
 /* Carousel base class */
 .carousel {
   margin-bottom: 4rem;
 }
+
 /* Since positioning the image, we need to help out the caption */
 .carousel-caption {
   bottom: 3rem;
@@ -21,6 +20,7 @@ body {
 .carousel-item {
   height: 32rem;
 }
+
 .carousel-item > img {
   position: absolute;
   top: 0;
@@ -29,28 +29,21 @@ body {
   height: 32rem;
 }
 
-
-/* MARKETING CONTENT
--------------------------------------------------- */
-
 /* Center align the text within the three columns below the carousel */
 .marketing .col-lg-4 {
   margin-bottom: 1.5rem;
   text-align: center;
 }
+
 .marketing h2 {
   font-weight: 400;
 }
+
 /* rtl:begin:ignore */
 .marketing .col-lg-4 p {
-  margin-right: .75rem;
-  margin-left: .75rem;
+  margin-right: 0.75rem;
+  margin-left: 0.75rem;
 }
-/* rtl:end:ignore */
-
-
-/* Featurettes
-------------------------- */
 
 .featurette-divider {
   margin: 5rem 0; /* Space out the Bootstrap <hr> more */
@@ -61,12 +54,8 @@ body {
   font-weight: 250;
   line-height: 1;
   /* rtl:remove */
-  letter-spacing: -.05rem;
+  letter-spacing: -0.05rem;
 }
-
-
-/* RESPONSIVE CSS
--------------------------------------------------- */
 
 @media (min-width: 40em) {
   /* Bump up size of carousel content */
@@ -77,12 +66,45 @@ body {
   }
 
   .featurette-heading {
-    font-size: 50px;
+    font-size: 2.5rem; /* Adjusted for smaller screens */
   }
 }
 
 @media (min-width: 62em) {
   .featurette-heading {
     margin-top: 7rem;
+    font-size: 3rem; /* Adjusted for larger screens */
+  }
+}
+
+/* Responsive styles for phones */
+@media (max-width: 40em) {
+  body {
+    padding-top: 1rem; /* Adjusted padding for smaller screens */
+    padding-bottom: 1rem;
+  }
+
+  .carousel-item {
+    height: 20rem; /* Adjusted height for smaller screens */
+  }
+
+  .carousel-item > img {
+    height: 20rem; /* Adjusted height for smaller screens */
+  }
+
+  .marketing .col-lg-4 {
+    margin-bottom: 1rem; /* Adjusted margin for smaller screens */
+  }
+
+  .marketing h2 {
+    font-size: 1.5rem; /* Adjusted font size for smaller screens */
+  }
+
+  .featurette-divider {
+    margin: 2rem 0; /* Adjusted margin for smaller screens */
+  }
+
+  .featurette-heading {
+    font-size: 1.8rem; /* Adjusted font size for smaller screens */
   }
 }
