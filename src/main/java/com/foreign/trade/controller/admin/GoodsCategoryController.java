@@ -86,14 +86,14 @@ public class GoodsCategoryController {
         int i = goodsCategoryService.deleteByPrimaryKey(categoryIds);
 
         // 删除分类下的商品
-        int j = goodsInfoService.deleteByCategoryId(categoryIds);
+//        int j = goodsInfoService.deleteByCategoryId(categoryIds);
 //        for (Integer categoryId : categoryIds) {
 //            List<GoodsInfo> goodsInfoList = goodsInfoService.selectByCategoryId(categoryId);
 //            for (GoodsInfo goodsInfo : goodsInfoList) {
 //                goodsInfo.g
 //            }
 //        }
-        if (i != 0 && j != 0)
+        if (i != 0 )
             return ResultGenerator.genSuccessResult("Delete Success");
 
         return ResultGenerator.genFailResult("Delete fail");

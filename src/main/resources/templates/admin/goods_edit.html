@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <header th:replace="admin/header::header-fragment"></header>
+
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
     <!-- 引入页面头header-fragment -->
@@ -45,9 +46,9 @@
                                        th:value="${goods != null and goods.goodsName != null } ? ${goods.goodsName}: ''"
                                        required="true">
                                 &nbsp;&nbsp;
-                                <input type="text" class="form-control col-sm-6" id="goodsInfo" name="goodsInfo"
-                                       placeholder="请输入商品简介(200字以内)"
-                                       th:value="${goods != null and goods.goodsInfo != null }?${goods.goodsInfo}: ''"
+                                <input type="date" class="form-control col-sm-6" id="goodsProductionTime" name="goodsProductionTime"
+                                       placeholder="请输入生产时间"
+                                       th:value="${goods != null and goods.goodsProductionTime != null }?${goods.goodsProductionTime}: ''"
                                        required="true">
                             </div>
                             <div class="form-group" style="display:flex;">
@@ -59,31 +60,31 @@
                                 <input type="text" class="form-control col-sm-6" id="goodsSize"
                                        name="goodsSize"
                                        placeholder="请输入商品尺寸"
-                                       th:value="${goods != null and goods.goodsSize != null } ? ${goods.goodsSize}"
+                                       th:value="${goods != null and goods.goodsSize != null } ? ${goods.goodsSize}:''"
                                        required="true">
                                 &nbsp;&nbsp;
                             </div>
                             <div class="form-group" style="display:flex;">
                                 <input type="text" class="form-control col-sm-6" id="goodsMaterial" name="goodsMaterial"
                                        placeholder="请输入商品材质"
-                                       th:value="${goods != null and goods.goodsMaterial != null } ? ${goods.goodsMaterial}"
+                                       th:value="${goods != null and goods.goodsMaterial != null } ? ${goods.goodsMaterial}:''"
                                        required="true">
                                 &nbsp;&nbsp;
-                                <input type="text" class="form-control col-sm-6" id="goodsPrice"
-                                       name="goodsPrice"
-                                       placeholder="请输入商品价格"
-                                       th:value="${goods != null and goods.goodsPrice != null } ? ${goods.goodsPrice}"
+                                <input type="text" class="form-control col-sm-6" id="goodsImprintMethod"
+                                       name="imprintMethod"
+                                       placeholder="请输入印刷方式"
+                                       th:value="${goods != null and goods.goodsImprintMethod != null } ? ${goods.goodsImprintMethod}:''"
                                        required="true">
                             </div>
                             <div class="form-group">
                                 <div class="form-group">
                                     <div class="col-sm-4">
-                                        <th:block th:if="${null == goods}">
-                                            <img id="goodsCoverImg" src="/admin/img/img-upload.png"
-                                                 style="height: 64px;width: 64px;">
-                                        </th:block>
+<!--                                        <th:block th:if="${null == goods}">-->
+<!--                                            <img src="/admin/img/img-upload.png"-->
+<!--                                                 style="height: 64px;width: 64px;">-->
+<!--                                        </th:block>-->
                                         <th:block th:unless="${null == goods}">
-                                            <img id="goodsCoverImg" th:src="${goods.goodsCoverImg}"
+                                            <img th:src="${goods.goodsCoverImg}"
                                                  style="width:160px ;height: 160px;display:block;">
                                         </th:block>
                                     </div>
@@ -91,10 +92,14 @@
                                 <br>
                                 <div class="form-group">
                                     <div class="col-sm-4">
-                                        <button class="btn btn-info" style="margin-bottom: 5px;"
-                                                id="uploadGoodsCoverImg">
-                                            <i class="fa fa-picture-o"></i>&nbsp;上传商品主图
-                                        </button>
+                                        <form id="uploadForm">
+                                            <label for="fileInput" id="uploadedImages">
+                                                    <img id="uploadImage" src="/admin/img/img-upload.png"
+                                                         alt="Upload Image">
+                                            </label>
+                                            <input type="file" id="fileInput" name="files[]" multiple
+                                                   style="display: none;">
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -112,7 +117,6 @@
                             </div>
                         </form>
                     </div>
-
                 </div>
             </div><!-- /.container-fluid -->
         </div>
@@ -135,5 +139,16 @@
 <script src="https://cdn.jsdelivr.net/npm/wangeditor@latest/dist/wangEditor.min.js"></script>
 <script th:src="@{/common/js/public.js}"></script>
 <script th:src="@{/admin/js/goods/goods_edit.js}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<!-- 引入Bootstrap Datepicker的CSS和JavaScript文件 -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+<script type="text/javascript">
+    $('#goodsInfo').datepicker({
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        todayHighlight: true
+    });
+</script>
 </body>
 </html>

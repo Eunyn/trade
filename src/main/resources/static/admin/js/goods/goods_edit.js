@@ -1,11 +1,12 @@
 let editorD;
+let imagesData;
 
 $(function () {
     // 富文本编辑器，商品详情编辑
     const E = window.wangEditor;
     editorD = new E('#wangEditor')
     editorD.config.height = 500
-    editorD.config.uploadImgServer = '/admin/upload/files'
+    editorD.config.uploadImgServer = '/admin/upload/detailFiles'
     editorD.config.uploadFileName = 'files'
     editorD.config.uploadImgMaxSize = 10 * 1024 * 1024
     editorD.config.uploadImgMaxLength = 5
@@ -36,45 +37,113 @@ $(function () {
     }
     editorD.create();
 
-    // 商品预览图上传
-    new AjaxUpload('#uploadGoodsCoverImg', {
-        action: '/admin/upload/file',
-        name: 'file',
-        autoSubmit: true,
-        responseType: "json",
-        onSubmit: function (file, extension) {
-            console.log('File object:', file);
-            if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))) {
-                alert('只支持jpg、png、gif格式的文件！');
-                return false;
-            }
-        },
-        onComplete: function (file, r) {
-            if (r != null && r.code === 200) {
-                $("#goodsCoverImg").attr("src", r.data);
-                $("#goodsCoverImg").attr("style", "width: 128px;height: 128px;display:block;");
-                return false;
-            } else if (r.code === 404) {
-                alert("Image size is too big, the size limit is 10MB.");
-            } else {
-                alert("something error.")
-            }
-        }
-    });
+    // // 商品预览图上传
+    // new AjaxUpload('#uploadGoodsCoverImg', {
+    //     action: '/admin/upload/files',
+    //     name: 'files',
+    //     autoSubmit: true,
+    //     responseType: "json",
+    //     onSubmit: function (file, extension) {
+    //         console.log('File object:', file);
+    //         if (!(extension && /^(jpg|jpeg|png|gif)$/.test(extension.toLowerCase()))) {
+    //             alert('只支持jpg、png、gif格式的文件！');
+    //             return false;
+    //         }
+    //     },
+    //     onComplete: function (file, r) {
+    //         if (r != null && r.code === 200) {
+    //             $("#goodsCoverImg").attr("src", r.data);
+    //             $("#goodsCoverImg").attr("style", "width: 128px;height: 128px;display:block;");
+    //             return false;
+    //         } else if (r.code === 404) {
+    //             alert("Image size is too big, the size limit is 10MB.");
+    //         } else {
+    //             alert("something error.")
+    //         }
+    //     }
+    // });
 });
 
+$('#fileInput').change(function () {
+    uploadFiles();
+});
+
+function uploadFiles() {
+    const fileInput = document.getElementById('fileInput');
+    const files = fileInput.files;
+    if (files.length === 0) {
+        alert('至少上传一张');
+        return;
+    }
+
+    if (files.length > 8) {
+        alert('最多上传 8 张图片')
+        return
+    }
+    const formData = new FormData();
+    const allowedFormats = ['jpg', 'jpeg', 'png'];
+    const maxSize = 10 * 1024 * 1024; // 10MB
+    for (let i = 0; i < files.length; i++) {
+        const file = files[i];
+        const fileSize = file.size;
+        const fileName = file.name;
+        const fileExtension = fileName.split('.').pop().toLowerCase();
+        // Check file size
+        if (fileSize > maxSize) {
+            alert('File size exceeds the limit of 10MB.');
+            return;
+        }
+        // Check file format
+        if (!allowedFormats.includes(fileExtension)) {
+            alert('文件格式仅限 jpg、jpeg、png');
+            return;
+        }
+
+        formData.append('files[]', file);
+    }
+
+    $.ajax({
+        type: 'POST',
+        url: '/admin/upload/files',
+        processData: false,
+        contentType: false,
+        data:  formData,
+        success: function (result) {
+            if (result.code === 200) {
+                imagesData = result.data
+                showUploadedImages(result.data)
+                console.log("上传结果：" + JSON.stringify(result))
+            } else {
+                swal(result.message, {
+                    icon: "error",
+                });
+            }
+        },
+        error:  () => {
+            swal("Server Error", {
+                icon: "error",
+            });
+        }
+    });
+}
+
 $('#saveButton').click(function () {
+    if (imagesData == null) {
+        swal("请上传商品图片", {
+            icon: "error",
+        });
+        return;
+    }
     const goodsId = $('#goodsId').val();
     const goodsName = $('#goodsName').val();
-    const goodsIntro = $('#goodsInfo').val();
+    const goodsProductionTime = $('#goodsProductionTime').val();
     const goodsCategoryId = $('#levelOne option:selected').val();
     const goodsColor = $('#goodsColor').val();
     const goodsSize = $('#goodsSize').val();
     const goodsMaterial = $('#goodsMaterial').val();
-    const goodsPrice = $('#goodsPrice').val();
-    const goodsCoverImg = $('#goodsCoverImg')[0].src;
+    const goodsImprintMethod = $('#goodsImprintMethod').val();
+    const goodsCoverImg = imagesData.join();
     const goodsDetailContent = editorD.txt.html();
-    console.log("goodsId: " + goodsId);
 
     if (isNull(goodsCategoryId)) {
         swal("请选择分类", {
@@ -94,78 +163,25 @@ $('#saveButton').click(function () {
         });
         return;
     }
-    // if (isNull(goodsIntro)) {
-    //     swal("请输入商品简介", {
-    //         icon: "error",
-    //     });
-    //     return;
-    // }
-    if (!validLength(goodsIntro, 200)) {
-        swal("简介过长", {
-            icon: "error",
-        });
-        return;
-    }
-    // if (isNull(goodsColor)) {
-    //     swal("请输入商品颜色", {
-    //         icon: "error",
-    //     });
-    //     return;
-    // }
+
     if (!validLength(goodsColor, 100)) {
         swal("颜色过长", {
             icon: "error",
         });
         return;
     }
-    // if (isNull(goodsSize)) {
-    //     swal("请输入商品尺寸", {
-    //         icon: "error",
-    //     });
-    //     return;
-    // }
-    // if (isNull(goodsMaterial)) {
-    //     swal("请输入商品材质", {
-    //         icon: "error",
-    //     });
-    //     return;
-    // }
-    // if (isNull(goodsPrice)) {
-    //     swal("请输入商品价格", {
-    //         icon: "error",
-    //     });
-    //     return;
-    // }
 
-    // if (isNull(goodsDetailContent)) {
-    //     swal("请输入商品介绍", {
-    //         icon: "error",
-    //     });
-    //     return;
-    // }
-    // if (!validLength(goodsDetailContent, 50000)) {
-    //     swal("商品介绍内容过长", {
-    //         icon: "error",
-    //     });
-    //     return;
-    // }
-    if (isNull(goodsCoverImg) || goodsCoverImg.indexOf('img-upload') !== -1) {
-        swal("封面图片不能为空", {
-            icon: "error",
-        });
-        return;
-    }
     let url = '/admin/goods/save';
     let swlMessage = '保存成功';
     let data = {
         "goodsName": goodsName,
-        "goodsInfo": goodsIntro,
+        "goodsProductionTime": goodsProductionTime,
         "goodsCategoryId": goodsCategoryId,
         "goodsCoverImg": goodsCoverImg,
         "goodsColor": goodsColor,
         "goodsSize": goodsSize,
         "goodsMaterial": goodsMaterial,
-        "goodsPrice": goodsPrice,
+        "goodsImprintMethod": goodsImprintMethod,
         "goodsDetails": goodsDetailContent
     };
     if (goodsId > 0) {
@@ -174,17 +190,17 @@ $('#saveButton').click(function () {
         data = {
             "goodsId": goodsId,
             "goodsName": goodsName,
-            "goodsInfo": goodsIntro,
+            "goodsProductionTime": goodsProductionTime,
             "goodsCategoryId": goodsCategoryId,
             "goodsCoverImg": goodsCoverImg,
             "goodsColor": goodsColor,
             "goodsSize": goodsSize,
             "goodsMaterial": goodsMaterial,
-            "goodsPrice": goodsPrice,
+            "goodsImprintMethod": goodsImprintMethod,
             "goodsDetails": goodsDetailContent
         };
     }
-    // console.log(data);
+    // console.log("保存: " + JSON.stringify(data));
     $.ajax({
         type: 'POST',
         url: url,
@@ -220,3 +236,15 @@ $('#saveButton').click(function () {
 $('#cancelButton').click(function () {
     window.location.href = "/admin/goods";
 });
+
+function showUploadedImages(images) {
+    const uploadedImagesDiv = document.getElementById('uploadedImages');
+    uploadedImagesDiv.innerHTML = ''; // 清空之前的内容
+
+    images.forEach(imageUrl => {
+        const img = document.createElement('img');
+        img.src = imageUrl;
+        img.style.maxWidth = '50px';
+        uploadedImagesDiv.appendChild(img);
+    });
+}

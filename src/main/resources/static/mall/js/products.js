@@ -1,6 +1,7 @@
 
 $('#sendInquiry').click(function () {
     const goodsId = $('#goodsId').val();
+    const quantity = $('#quantity').val();
     const goodsName = $('#goodsName').val();
     const yourName = $('#yourName').val();
     const companyName = $('#companyName').val();
@@ -10,6 +11,15 @@ $('#sendInquiry').click(function () {
     const email = $('#email').val();
     const message = $('#message').val();
     const verifyCode = $('#verifyCode').val();
+
+    console.log("quantity: " + quantity)
+
+    if (isNaN(quantity) || isNull(quantity) || quantity < 1) {
+        swal("Please input order quantity", {
+            icon: "error",
+        });
+        return;
+    }
 
     if (isNull(goodsName)) {
         swal("Please choose product", {
@@ -23,17 +33,18 @@ $('#sendInquiry').click(function () {
         });
         return;
     }
-    if (isNull(verifyCode)) {
-        swal("VerifyCode is null", {
-            icon: "error",
-        });
-        return;
-    }
+    // if (isNull(verifyCode)) {
+    //     swal("VerifyCode is null", {
+    //         icon: "error",
+    //     });
+    //     return;
+    // }
 
     const url = '/mall/inquiry?verifyCode=' + verifyCode;
     const swlMessage = 'Send Success';
     const data = {
         "goodsId": goodsId,
+        "quantity": quantity,
         "goodsName": goodsName,
         "yourName": yourName,
         "companyName": companyName,
@@ -44,36 +55,36 @@ $('#sendInquiry').click(function () {
         "message": message
     };
 
-    $.ajax({
-        type: 'POST',
-        url: url,
-        contentType: 'application/json',
-        data: JSON.stringify(data),
-        success: function (result) {
-            if (result.code === 200) {
-                swal({
-                    title: swlMessage,
-                    type: 'success',
-                    showCancelButton: false,
-                    confirmButtonColor: '#1baeae',
-                    confirmButtonText: 'Return product list',
-                    confirmButtonClass: 'btn btn-success',
-                    buttonsStyling: false
-                }).then(function () {
-                    window.location.href = "/mall/products"
-                })
-            } else {
-                swal(result.message, {
-                    icon: "error",
-                });
-            }
-        },
-        error: function (result) {
-            swal("Verify code or something wrong.", {
-                icon: "error",
-            });
-        }
-    });
+    // $.ajax({
+    //     type: 'POST',
+    //     url: url,
+    //     contentType: 'application/json',
+    //     data: JSON.stringify(data),
+    //     success: function (result) {
+    //         if (result.code === 200) {
+    //             swal({
+    //                 title: swlMessage,
+    //                 type: 'success',
+    //                 showCancelButton: false,
+    //                 confirmButtonColor: '#1baeae',
+    //                 confirmButtonText: 'Return product list',
+    //                 confirmButtonClass: 'btn btn-success',
+    //                 buttonsStyling: false
+    //             }).then(function () {
+    //                 window.location.href = "/mall/products"
+    //             })
+    //         } else {
+    //             swal(result.message, {
+    //                 icon: "error",
+    //             });
+    //         }
+    //     },
+    //     error: function (result) {
+    //         swal("Verify code or something wrong.", {
+    //             icon: "error",
+    //         });
+    //     }
+    // });
 });
 
 $(function () {

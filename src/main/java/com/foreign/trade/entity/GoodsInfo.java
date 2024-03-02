@@ -15,18 +15,17 @@ import java.util.Date;
 public class GoodsInfo {
     private Integer goodsId;
     private String goodsName;
-    private String goodsInfo;
+    private String goodsProductionTime;
     private Integer goodsCategoryId;
     private String goodsCoverImg;
     private String goodsColor;
     private String goodsSize;
     private String goodsMaterial;
-    private String goodsPrice;
+    private String goodsImprintMethod;
     private String goodsDetails;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
-
-    private String remain3;
+    private String goodsSubImg;
 
     public String getGoodsDetails() {
         return goodsDetails;
@@ -50,14 +49,6 @@ public class GoodsInfo {
 
     public void setGoodsName(String goodsName) {
         this.goodsName = goodsName;
-    }
-
-    public String getGoodsInfo() {
-        return goodsInfo;
-    }
-
-    public void setGoodsInfo(String goodsInfo) {
-        this.goodsInfo = goodsInfo;
     }
 
     public Integer getGoodsCategoryId() {
@@ -100,14 +91,6 @@ public class GoodsInfo {
         this.goodsMaterial = goodsMaterial;
     }
 
-    public String getGoodsPrice() {
-        return goodsPrice;
-    }
-
-    public void setGoodsPrice(String goodsPrice) {
-        this.goodsPrice = goodsPrice;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -116,19 +99,45 @@ public class GoodsInfo {
         this.createTime = createTime;
     }
 
+    public String getGoodsSubImg() {
+        return goodsSubImg;
+    }
+
+    public void setGoodsSubImg(String goodsSubImg) {
+        this.goodsSubImg = goodsSubImg;
+    }
+
+    public String getGoodsProductionTime() {
+        return goodsProductionTime;
+    }
+
+    public void setGoodsProductionTime(String goodsProductionTime) {
+        this.goodsProductionTime = goodsProductionTime;
+    }
+
+    public String getGoodsImprintMethod() {
+        return goodsImprintMethod;
+    }
+
+    public void setGoodsImprintMethod(String goodsImprintMethod) {
+        this.goodsImprintMethod = goodsImprintMethod;
+    }
+
     @Override
     public String toString() {
         return "GoodsInfo{" +
                 "goodsId=" + goodsId +
                 ", goodsName='" + goodsName + '\'' +
-                ", goodsInfo='" + goodsInfo + '\'' +
+                ", goodsProductionTime='" + goodsProductionTime + '\'' +
                 ", goodsCategoryId=" + goodsCategoryId +
                 ", goodsCoverImg='" + goodsCoverImg + '\'' +
                 ", goodsColor='" + goodsColor + '\'' +
                 ", goodsSize='" + goodsSize + '\'' +
                 ", goodsMaterial='" + goodsMaterial + '\'' +
-                ", goodsPrice='" + goodsPrice + '\'' +
+                ", goodsImprintMethod='" + goodsImprintMethod + '\'' +
+                ", goodsDetails='" + goodsDetails + '\'' +
                 ", createTime=" + createTime +
+                ", goodsSubImg='" + goodsSubImg + '\'' +
                 '}';
     }
 }

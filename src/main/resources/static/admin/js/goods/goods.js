@@ -6,10 +6,10 @@ $(function () {
             {label: '商品编号', name: 'goodsId', index: 'goodsId', width: 20, key: true, hidden: true},
             {label: '类别', name: 'categoryName', index: 'categoryName', width: 80},
             {label: '商品名', name: 'goodsName', index: 'goodsName', width: 120},
-            {label: '商品简介', name: 'goodsInfo', index: 'goodsInfo', width: 120, formatter: goodsInfo},
+            {label: '生产时间', name: 'goodsProductionTime', index: 'goodsProductionTime', width: 120, formatter: goodsProductionTime},
             {label: '商品图片', name: 'goodsCoverImg', index: 'goodsCoverImg', width: 100, formatter: coverImageFormatter},
             {label: '商品尺寸', name: 'goodsSize', index: 'goodSize', width: 60},
-            {label: '售价', name: 'goodsPrice', index: 'goodsPrice', width: 60},
+            {label: '印刷方式', name: 'goodsImprintMethod', index: 'goodsImprintMethod', width: 60},
             {label: '创建时间', name: 'createTime', index: 'createTime', width: 100}
         ],
         height: 760,
@@ -47,7 +47,7 @@ $(function () {
         return "<img src='" + cellvalue + "' height=\"80\" width=\"80\" alt='商品主图'/>";
     }
 
-    function goodsInfo(cellvalue) {
+    function goodsProductionTime(cellvalue) {
         if (cellvalue.length > 50) {
             cellvalue = cellvalue.substring(0,50) + '...';
         }

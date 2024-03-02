@@ -73,6 +73,47 @@ public class UploadController {
 
     @PostMapping("/upload/files")
     @ResponseBody
+    public Result uploadMultiFiles(@RequestParam("files[]") List<MultipartFile> multipartFiles) throws URISyntaxException {
+        if (CollectionUtils.isEmpty(multipartFiles)) {
+            return ResultGenerator.genFailResult("参数异常");
+        }
+        if (multipartFiles.size() > 8) {
+            return ResultGenerator.genFailResult("最多上传 8 张图片");
+        }
+        List<String> fileNameList = new ArrayList<>(multipartFiles.size());
+        for (MultipartFile multipartFile : multipartFiles) {
+            String fileName = multipartFile.getOriginalFilename();
+            String suffixName = fileName.substring(fileName.lastIndexOf("."));
+            // 生成文件名通用方法
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd_HHmmss");
+            Random random = new Random();
+            String newFileName = sdf.format(new Date()) + random.nextInt(100) + suffixName;
+            File fileDirectory = new File(Constants.FILE_UPLOAD_DIC_MAIN);
+            // 创建文件
+            File destFile = new File(Constants.FILE_UPLOAD_DIC_MAIN + newFileName);
+            try {
+                if (!fileDirectory.exists()) {
+                    if (!fileDirectory.mkdir()) {
+                        throw new IOException("文件夹创建失败，路径为：" + fileDirectory);
+                    }
+                }
+                multipartFile.transferTo(destFile);
+                fileNameList.add("/upload/main/" + newFileName);
+            } catch (IOException e) {
+                e.printStackTrace();
+                return ResultGenerator.genFailResult("文件上传失败");
+            }
+        }
+
+        Result successResult = ResultGenerator.genSuccessResult();
+        successResult.setData(fileNameList);
+        System.out.println("Result: " + fileNameList);
+
+        return successResult;
+    }
+
+    @PostMapping("/upload/detailFiles")
+    @ResponseBody
     public Result uploadMultiFiles(HttpServletRequest request) throws URISyntaxException {
         ArrayList<MultipartFile> multipartFiles = new ArrayList<>(8);
         if (servletMultipartResolver.isMultipart(request)) {

@@ -18,14 +18,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Author: Eun
  * @Version 1.0.0
- * @ClassName: GoodsDeatilController.java
+ * @ClassName: GoodsDetailController.java
  * @Description: TODO
  * @CreateTime: 2023/12/3 20:51:00
  **/
@@ -106,8 +104,18 @@ public class GoodsDetailController {
         request.setAttribute("categories", select);
 
         GoodsInfo goodsInfo = goodsInfoService.selectByPrimaryKey(goodsId);
+        List<String> imgPath = getGoodsImage(goodsInfo.getGoodsSubImg());
         request.setAttribute("details", goodsInfo);
+        request.setAttribute("imgPathSub", imgPath);
 
         return "mall/product_detail";
+    }
+
+    private List<String> getGoodsImage(String imgPath) {
+        if (!StringUtils.hasLength(imgPath)) {
+            return null;
+        }
+        String[] split = imgPath.split(",");
+        return new ArrayList<>(Arrays.asList(split));
     }
 }

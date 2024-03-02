@@ -4,29 +4,30 @@
     <resultMap id="BaseResultMap" type="GoodsInfo">
         <id column="goods_id" jdbcType="INTEGER" property="goodsId"/>
         <result column="goods_name" jdbcType="VARCHAR" property="goodsName"/>
-        <result column="goods_info" jdbcType="VARCHAR" property="goodsInfo"/>
+        <result column="goods_production_time" jdbcType="VARCHAR" property="goodsProductionTime"/>
         <result column="goods_category_id" jdbcType="INTEGER" property="goodsCategoryId"/>
         <result column="goods_cover_img" jdbcType="VARCHAR" property="goodsCoverImg"/>
         <result column="goods_color" jdbcType="VARCHAR" property="goodsColor"/>
         <result column="goods_size" jdbcType="VARCHAR" property="goodsSize"/>
         <result column="goods_material" jdbcType="VARCHAR" property="goodsMaterial"/>
-        <result column="goods_price" jdbcType="VARCHAR" property="goodsPrice"/>
-        <!--        <result column="goods_details" jdbcType="TEXT" property="goodsDetails"/>-->
+        <result column="goods_imprint_method" jdbcType="VARCHAR" property="goodsImprintMethod"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="goods_sub_img" jdbcType="VARCHAR" property="goodsSubImg"/>
     </resultMap>
 
     <resultMap id="BaseResult" type="GoodsCategoryInfo">
         <id column="goodsId" jdbcType="INTEGER" property="goodsId"/>
         <result column="categoryName" jdbcType="VARCHAR" property="categoryName"/>
         <result column="goodsName" jdbcType="VARCHAR" property="goodsName"/>
-        <result column="goodsInfo" jdbcType="VARCHAR" property="goodsInfo"/>
+        <result column="goodsProductionTime" jdbcType="VARCHAR" property="goodsProductionTime"/>
         <result column="goodsCategoryId" jdbcType="INTEGER" property="goodsCategoryId"/>
         <result column="goodsCoverImg" jdbcType="VARCHAR" property="goodsCoverImg"/>
         <result column="goodsColor" jdbcType="VARCHAR" property="goodsColor"/>
         <result column="goodsSize" jdbcType="VARCHAR" property="goodsSize"/>
         <result column="goodsMaterial" jdbcType="VARCHAR" property="goodsMaterial"/>
-        <result column="goodsPrice" jdbcType="VARCHAR" property="goodsPrice"/>
+        <result column="goodsImprintMethod" jdbcType="VARCHAR" property="goodsImprintMethod"/>
         <result column="createTime" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="goodsSubImg" jdbcType="VARCHAR" property="goodsSubImg"/>
     </resultMap>
 
     <resultMap extends="BaseResultMap" id="ResultMapWithBlob" type="GoodsInfo">
@@ -35,7 +36,7 @@
 
     <sql id="Base_Column_List">
         goods_id
-        , goods_name, goods_info, goods_category_id, goods_cover_img, goods_color, goods_size, goods_material, goods_price, create_time
+        , goods_name, goods_production_time, goods_category_id, goods_cover_img, goods_color, goods_size, goods_material, goods_imprint_method, create_time, goods_sub_img
     </sql>
 
     <sql id="Blob_Column_List">
@@ -48,8 +49,8 @@
             <if test="goodsName != null">
                 goods_name,
             </if>
-            <if test="goodsInfo != null">
-                goods_info,
+            <if test="goodsProductionTime != null">
+                goods_production_time,
             </if>
             <if test="goodsCategoryId != null">
                 goods_category_id,
@@ -66,8 +67,8 @@
             <if test="goodsMaterial != null">
                 goods_material,
             </if>
-            <if test="goodsPrice != null">
-                goods_price,
+            <if test="goodsImprintMethod != null">
+                goods_imprint_method,
             </if>
             <if test="goodsDetails != null">
                 goods_details,
@@ -75,13 +76,16 @@
             <if test="createTime != null">
                 create_time,
             </if>
+            <if test="goodsSubImg != null">
+                goods_sub_img,
+            </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="goodsName != null">
                 #{goodsName},
             </if>
-            <if test="goodsInfo != null">
-                #{goodsInfo},
+            <if test="goodsProductionTime != null">
+                #{goodsProductionTime},
             </if>
             <if test="goodsCategoryId != null">
                 #{goodsCategoryId},
@@ -98,14 +102,17 @@
             <if test="goodsMaterial != null">
                 #{goodsMaterial},
             </if>
-            <if test="goodsPrice != null">
-                #{goodsPrice},
+            <if test="goodsImprintMethod != null">
+                #{goodsImprintMethod},
             </if>
             <if test="goodsDetails != null">
                 #{goodsDetails},
             </if>
             <if test="createTime != null">
                 #{createTime},
+            </if>
+            <if test="goodsSubImg != null">
+                #{goodsSubImg},
             </if>
         </trim>
     </insert>
@@ -116,8 +123,8 @@
             <if test="goodsName != null">
                 goods_name = #{goodsName},
             </if>
-            <if test="goodsInfo != null">
-                goods_info = #{goodsInfo},
+            <if test="goodsProductionTime != null">
+                goods_production_time = #{goodsProductionTime},
             </if>
             <if test="goodsCategoryId != null">
                 goods_category_id = #{goodsCategoryId},
@@ -134,11 +141,14 @@
             <if test="goodsMaterial != null">
                 goods_material = #{goodsMaterial},
             </if>
-            <if test="goodsPrice != null">
-                goods_price = #{goodsPrice},
+            <if test="goodsImprintMethod != null">
+                goods_imprint_method = #{goodsImprintMethod},
             </if>
             <if test="goodsDetails != null">
                 goods_details = #{goodsDetails},
+            </if>
+            <if test="goodsSubImg != null">
+                goods_sub_img = #{goodsSubImg},
             </if>
         </set>
         where goods_id =#{goodsId}
@@ -170,13 +180,13 @@
         c.category_name AS categoryName,
         g.goods_id AS goodsId,
         g.goods_name AS goodsName,
-        g.goods_info AS goodsInfo,
+        g.goods_production_time AS goodsProductionTime,
         g.goods_category_id AS goodsCategoryId,
         g.goods_cover_img AS goodsCoverImg,
         g.goods_color AS goodsColor,
         g.goods_size AS goodsSize,
         g.goods_material AS goodsMaterial,
-        g.goods_price AS goodsPrice,
+        g.goods_imprint_method AS goodsImprintMethod,
         g.goods_details AS goodsDetails,
         g.create_time AS createTime
         FROM tb_goods_info g
@@ -226,7 +236,7 @@
         from tb_goods_info
         <where>
             <if test="keyword != null and keyword != ''">
-                and (goods_name like CONCAT('%', #{keyword}, '%') or goods_info like CONCAT('%', #{keyword}, '%'))
+                and (goods_name like CONCAT('%', #{keyword}, '%') or goods_details like CONCAT('%', #{keyword}, '%'))
             </if>
             <if test="goodsCategoryId != null and goodsCategoryId != ''">
                 and goods_category_id = #{goodsCategoryId}
@@ -248,11 +258,8 @@
         select count(*) from tb_goods_info
         <where>
             <if test="keyword != null and keyword != ''">
-                and (goods_name like CONCAT('%', #{keyword}, '%') or goods_info like CONCAT('%', #{keyword}, '%'))
+                and (goods_name like CONCAT('%', #{keyword}, '%') or goods_details like CONCAT('%', #{keyword}, '%'))
             </if>
-            <!--            <if test="goodsCategoryId != null and goodsCategoryId != ''">-->
-            <!--                and goods_category_id = #{goodsCategoryId}-->
-            <!--            </if>-->
         </where>
     </select>
 

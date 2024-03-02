@@ -15,13 +15,13 @@ public class GoodsCategoryInfo {
     private String categoryName;
     private Integer goodsId;
     private String goodsName;
-    private String goodsInfo;
+    private String goodsProductionTime;
     private Integer goodsCategoryId;
     private String goodsCoverImg;
     private String goodsColor;
     private String goodsSize;
     private String goodsMaterial;
-    private String goodsPrice;
+    private String goodsImprintMethod;
     private String goodsDetails;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createTime;
@@ -56,14 +56,6 @@ public class GoodsCategoryInfo {
 
     public void setGoodsName(String goodsName) {
         this.goodsName = goodsName;
-    }
-
-    public String getGoodsInfo() {
-        return goodsInfo;
-    }
-
-    public void setGoodsInfo(String goodsInfo) {
-        this.goodsInfo = goodsInfo;
     }
 
     public Integer getGoodsCategoryId() {
@@ -106,19 +98,27 @@ public class GoodsCategoryInfo {
         this.goodsMaterial = goodsMaterial;
     }
 
-    public String getGoodsPrice() {
-        return goodsPrice;
-    }
-
-    public void setGoodsPrice(String goodsPrice) {
-        this.goodsPrice = goodsPrice;
-    }
-
     public String getGoodsDetails() {
         return goodsDetails;
     }
 
     public void setGoodsDetails(String goodsDetails) {
         this.goodsDetails = goodsDetails;
+    }
+
+    public String getGoodsProductionTime() {
+        return goodsProductionTime;
+    }
+
+    public void setGoodsProductionTime(String goodsProductionTime) {
+        this.goodsProductionTime = goodsProductionTime;
+    }
+
+    public String getGoodsImprintMethod() {
+        return goodsImprintMethod;
+    }
+
+    public void setGoodsImprintMethod(String goodsImprintMethod) {
+        this.goodsImprintMethod = goodsImprintMethod;
     }
 }

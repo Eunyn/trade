@@ -88,17 +88,6 @@ public class GoodsInfoController {
     @PostMapping("/goods/save")
     @ResponseBody
     public Result saveGoods(@RequestBody GoodsInfo goodsInfo) {
-//        if (!StringUtils.hasLength(goodsInfo.getGoodsName())
-//                || !StringUtils.hasLength(goodsInfo.getGoodsInfo())
-//                || !StringUtils.hasLength(goodsInfo.getGoodsColor())
-//                || !StringUtils.hasLength(goodsInfo.getGoodsSize())
-//                || !StringUtils.hasLength(goodsInfo.getGoodsPrice())
-//                || !StringUtils.hasLength(goodsInfo.getGoodsCoverImg())
-//                || !StringUtils.hasLength(goodsInfo.getGoodsMaterial())
-//                || goodsInfo.getGoodsCategoryId() == null) {
-//            return ResultGenerator.genFailResult("参数异常！");
-//        }
-
         if (!StringUtils.hasLength(goodsInfo.getGoodsName())
                 || !StringUtils.hasLength(goodsInfo.getGoodsCoverImg())
                 || goodsInfo.getGoodsCategoryId() == null) {
@@ -111,13 +100,15 @@ public class GoodsInfoController {
             return new Result(500, "商品名称重复！");
         }
 
-        String coverImg = goodsInfo.getGoodsCoverImg();
-        String[] uploads = coverImg.split("upload");
-        String imgPath = "/upload" + uploads[1];
-        logger.info("coverImagePath: {}", imgPath);
-        Date createTime = parseTime(imgPath);
-        goodsInfo.setGoodsCoverImg(imgPath);
+        String[] images = goodsInfo.getGoodsCoverImg().split(",");
+        String coverImg = images[0];
+        Date createTime = parseTime(coverImg);
         goodsInfo.setCreateTime(createTime);
+        if (images.length > 1) {
+            String img = goodsInfo.getGoodsCoverImg().substring(coverImg.length() + 1);
+            goodsInfo.setGoodsSubImg(img);
+        }
+        goodsInfo.setGoodsCoverImg(coverImg);
         int result = goodsInfoService.insert(goodsInfo);
         if (result == 0) {
             return ResultGenerator.genFailResult("保存失败");
@@ -130,20 +121,17 @@ public class GoodsInfoController {
     @ResponseBody
     public Result updateGoods(@RequestBody GoodsInfo goodsInfo) {
         if (!StringUtils.hasLength(goodsInfo.getGoodsName())
-//                || !StringUtils.hasLength(goodsInfo.getGoodsInfo())
-//                || !StringUtils.hasLength(goodsInfo.getGoodsColor())
-//                || !StringUtils.hasLength(goodsInfo.getGoodsSize())
-//                || !StringUtils.hasLength(goodsInfo.getGoodsPrice())
                 || !StringUtils.hasLength(goodsInfo.getGoodsCoverImg())
-//                || !StringUtils.hasLength(goodsInfo.getGoodsMaterial())
                 || goodsInfo.getGoodsCategoryId() == null) {
             return ResultGenerator.genFailResult("商品信息不全或有误！");
         }
         logger.info("商品信息：{}", goodsInfo);
-        String coverImg = goodsInfo.getGoodsCoverImg();
-        String[] uploads = coverImg.split("upload");
-        String imgPath = "/upload" + uploads[1];
-        goodsInfo.setGoodsCoverImg(imgPath);
+        String[] images = goodsInfo.getGoodsCoverImg().split(",");
+        goodsInfo.setGoodsCoverImg(images[0]);
+        if (images.length > 1) {
+            String img = goodsInfo.getGoodsCoverImg().substring(images[0].length() + 1);
+            goodsInfo.setGoodsSubImg(img);
+        }
         int i = goodsInfoService.updateByPrimaryKey(goodsInfo);
         if (i == 0) {
             return ResultGenerator.genFailResult("更新失败");
@@ -205,7 +193,6 @@ public class GoodsInfoController {
         GoodsInquiry goodsInquiry = goodsInquiryService.getInquiryById(inquiryId);
         logger.info("查询信息为：{}", goodsInquiry);
         if (goodsInquiry == null) {
-
             return ResultGenerator.genFailResult("查看失败");
         }
 
@@ -229,7 +216,7 @@ public class GoodsInfoController {
     private void deleteUploadImg(Integer[] goodsIds) {
         for (Integer goodsId : goodsIds) {
             GoodsInfo goodsInfo = goodsInfoService.selectByPrimaryKey(goodsId);
-            // 删除商品详图
+            // 删除商品详情图
             deleteDetailImg(goodsInfo.getGoodsDetails());
             // 删除商品主图
             String imagePath = goodsInfo.getGoodsCoverImg();
@@ -244,6 +231,9 @@ public class GoodsInfoController {
                     logger.info("删除状态：{}", delete);
                 }
             }
+
+            // 删除商品主图的子图
+            deleteCoverSubImg(goodsInfo.getGoodsSubImg());
         }
     }
 
@@ -257,6 +247,22 @@ public class GoodsInfoController {
             String group = matcher.group(1);
             String imagePath = Constants.FILE_UPLOAD_DIC_DETAILS + group.split("/")[3];
             File imgFile = new File(imagePath);
+            if (imgFile.exists() && imgFile.isFile()) {
+                boolean delete = imgFile.delete();
+            }
+        }
+    }
+
+    private void deleteCoverSubImg(String images) {
+        if (!StringUtils.hasLength(images)) {
+            return;
+        }
+        String[] split = images.split(",");
+        for (String imagePath : split) {
+            String[] imgPathPart = imagePath.split("/");
+            imagePath = imgPathPart[3];
+            String imageLocalPath = Constants.FILE_UPLOAD_DIC_MAIN + imagePath;
+            File imgFile = new File(imageLocalPath);
             if (imgFile.exists() && imgFile.isFile()) {
                 boolean delete = imgFile.delete();
             }

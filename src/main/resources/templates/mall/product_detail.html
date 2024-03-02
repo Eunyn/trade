@@ -51,6 +51,38 @@
     ul, ol {
         margin: 10px 0 10px 0;
     }
+    /*.product-gallery {*/
+    /*    display: flex;*/
+    /*    flex-direction: column;*/
+    /*}*/
+
+    .main-image {
+        width: 100%;
+        max-width: 400px; /* 根据需要调整主图大小 */
+    }
+
+    .main-image img {
+        width: 100%;
+    }
+
+    .thumbnail-list {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 10px;
+    }
+
+    .thumbnail, .subImage{
+        width: 60px; /* 子图大小 */
+        height: 60px; /* 子图大小 */
+        margin: 5px;
+        cursor: pointer;
+        object-fit: cover;
+    }
+
+    .thumbnail:hover {
+        opacity: 0.7;
+    }
+
 </style>
 <body>
 <header th:replace="mall/header::header-fragment"></header>
@@ -63,57 +95,66 @@
         </div>
 
         <div class="col-xs-12 col-sm-8 col-md-9" style="float: right">
-            <div class="list_box">
-                <div class="col-sm-12 col-md-6 showpic_box">
-                    <div class="bx-wrapper" style="max-width: 100%">
-                        <div class="bx-viewport"
-                             style="width: 400px; overflow: hidden; position: relative; height: 340px;">
-                            <ul class="showpic_flash">
-                                <li><img th:src="@{${details.goodsCoverImg}}"></li>
-                            </ul>
+            <div class="row">
+<!--                <div class="list_box">-->
+                    <div class="col-sm-12 col-lg-6 showpic_box">
+                        <div class="bx-wrapper" style="width: 400px; overflow: hidden; position: relative; height: 400px;">
+                            <div class="product-gallery">
+                                <div class="main-image">
+                                    <img id="mainImg" width="400px" height="400px" th:src="@{${details.goodsCoverImg}}">
+                                </div>
+                                <!-- 子图列表 -->
+                                <th:block th:if="${imgPathSub != null && !#lists.isEmpty(imgPathSub)}">
+                                    <div class="thumbnail-list" >
+                                        <div class="subImage" th:each="path : ${imgPathSub}">
+                                            <img class="thumbnail" th:src="@{${path}}" alt="子图">
+                                        </div>
+                                    </div>
+                                </th:block>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="col-sm-12 col-md-6 proinfo_box">
-                    <h1 th:text="${details.goodsName}"></h1>
-                    <ul class="product_info">
-                        <th:block th:if="${details.goodsColor != null }">
-                            <li><strong>Color: </strong><span th:text="${details.goodsColor}"></span></li>
-                        </th:block>
-                        <th:block th:if="${details.goodsSize != null }">
-                            <li><strong>Size: </strong><span th:text="${details.goodsSize}"></span></li>
-                        </th:block>
-                        <th:block th:if="${details.goodsMaterial != null }">
-                            <li><strong>Material: </strong><span th:text="${details.goodsMaterial}"></span></li>
-                        </th:block>
-                        <th:block th:if="${details.goodsPrice != null }">
-                            <li><strong>Price: </strong><span th:text="${details.goodsPrice}"></span></li>
-                        </th:block>
-                        <th:block th:if="${details.goodsInfo != null }">
-                            <li><strong>Introduction: </strong><span th:text="${details.goodsInfo}"></span></li>
-                        </th:block>
-                        <li>
-                            <input type="hidden" th:value="${details.goodsId}">
-                            <button type="button" name="INQUIRY" class="btn btn-primary" data-bs-toggle="modal"
-                                    data-bs-target="#exampleModal" id="inquiryButton">INQUIRY
-                            </button>
-                        </li>
-                    </ul>
+                    <div class="col-sm-12 col-lg-6 proinfo_box">
+                        <h1 th:text="${details.goodsName}"></h1>
+                        <ul class="product_info">
+                            <th:block th:if="${details.goodsColor != null }">
+                                <li><strong>Color: </strong><span th:text="${details.goodsColor}"></span></li>
+                            </th:block>
+                            <th:block th:if="${details.goodsSize != null }">
+                                <li><strong>Size: </strong><span th:text="${details.goodsSize}"></span></li>
+                            </th:block>
+                            <th:block th:if="${details.goodsMaterial != null }">
+                                <li><strong>Material: </strong><span th:text="${details.goodsMaterial}"></span></li>
+                            </th:block>
+                            <th:block th:if="${details.goodsImprintMethod != null }">
+                                <li><strong>Imprint Method: </strong><span th:text="${details.goodsImprintMethod}"></span></li>
+                            </th:block>
+                            <th:block th:if="${details.goodsProductionTime != null }">
+                                <li><strong>Production Time: </strong><span th:text="${details.goodsProductionTime}"></span></li>
+                            </th:block>
+                            <li>
+                                <input type="hidden" th:value="${details.goodsId}">
+                                <button type="button" name="INQUIRY" class="btn btn-primary" data-bs-toggle="modal"
+                                        data-bs-target="#exampleModal" id="inquiryButton">INQUIRY
+                                </button>
+                            </li>
+                        </ul>
 
-                </div>
+                    </div>
 
-                <hr width="80%">
-                <div>
-                    <th:block th:if="${details.goodsDetails != null and details.goodsDetails != ''}">
-                        <span th:utext="${details.goodsDetails}"></span>
-                    </th:block>
-                    <th:block th:if="${details.goodsDetails == null || details.goodsDetails == ''}">
-                        <div class="col" id="nullProduct">
-                            <h2><span>Click on "INQUIRY" to inquire for details.</span></h2>
-                        </div>
-                    </th:block>
-                </div>
+                    <hr width="80%">
+                    <div>
+                        <th:block th:if="${details.goodsDetails != null and details.goodsDetails != ''}">
+                            <span th:utext="${details.goodsDetails}"></span>
+                        </th:block>
+                        <th:block th:if="${details.goodsDetails == null || details.goodsDetails == ''}">
+                            <div class="col" id="nullProduct">
+                                <h2><span>Click on "INQUIRY" to inquire for details.</span></h2>
+                            </div>
+                        </th:block>
+                    </div>
+<!--                </div>-->
             </div>
         </div>
     </div>
@@ -135,6 +176,10 @@
                             <input type="text" th:value="${details.goodsName}" class="form-control" id="goodsName"
                                    placeholder="name@example.com">
                             <label for="goodsName">Product Name</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="number"  class="form-control" value="1" id="quantity" >
+                            <label for="quantity">Order Quantity</label>
                         </div>
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="yourName" placeholder="name@example.com">
@@ -196,11 +241,22 @@
     </section>
 </footer>
 
-
 <script th:src="@{/common/js/jquery.min.js}"></script>
 <script th:src="@{/common/js/jquery-1.8.0.js}"></script>
 <script th:src="@{/common/js/public.js}"></script>
 <script th:src="@{/common/js/sweetalert.min.js}"></script>
 <script th:src="@{/mall/js/products.js}"></script>
+
+<script>
+    const thumbnails = document.querySelectorAll('.thumbnail');
+    const mainImg = document.getElementById('mainImg');
+
+    thumbnails.forEach((thumbnail) => {
+        thumbnail.addEventListener('click', (event) => {
+            mainImg.src = event.target.src;
+        });
+    });
+
+</script>
 </body>
 </html>
