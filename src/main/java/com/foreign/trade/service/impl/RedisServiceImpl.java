@@ -84,7 +84,7 @@ public class RedisServiceImpl implements RedisService {
     }
 
     @Override
-    @Scheduled(cron = "0 0 0 * * ?")
+//    @Scheduled(cron = "0 0 0 * * ?")
     public void resetDailyCounters() {
         String currentDate = LocalDate.now().toString();
         String key = Constants.ACCESS_DAILY + currentDate;

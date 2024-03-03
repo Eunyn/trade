@@ -10,7 +10,7 @@
     </parent>
     <groupId>com.foreign</groupId>
     <artifactId>trade</artifactId>
-    <version>1.0.0</version>
+    <version>1.4</version>
     <packaging>jar</packaging>
     <name>trade</name>
     <description>trade</description>

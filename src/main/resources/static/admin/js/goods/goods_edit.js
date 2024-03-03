@@ -200,7 +200,7 @@ $('#saveButton').click(function () {
             "goodsDetails": goodsDetailContent
         };
     }
-    // console.log("保存: " + JSON.stringify(data));
+
     $.ajax({
         type: 'POST',
         url: url,
@@ -239,7 +239,7 @@ $('#cancelButton').click(function () {
 
 function showUploadedImages(images) {
     const uploadedImagesDiv = document.getElementById('uploadedImages');
-    uploadedImagesDiv.innerHTML = ''; // 清空之前的内容
+    uploadedImagesDiv.innerHTML = '';
 
     images.forEach(imageUrl => {
         const img = document.createElement('img');

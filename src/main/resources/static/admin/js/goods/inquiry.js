@@ -5,6 +5,7 @@ $(function () {
         colModel: [
             {label: 'id', name: 'inquiryId', index: 'inquiryId', width: 50, key: true, hidden: true},
             {label: '商品名称', name: 'goodsName', index: 'goodsName', width: 120},
+            {label: '订购数量', name: 'quantity', index: 'quantity', width: 120},
             {label: '客户姓名', name: 'yourName', index: 'yourName', width: 100},
             {label: 'E-mail', name: 'email', index: 'email', width: 120},
             {label: '创建时间', name: 'createTime', index: 'createTime', width: 100},
@@ -68,6 +69,7 @@ function openDetailsContent(inquiryId) {
                 $('#inquiryDetailModal').modal('show');
                 let itemString = '';
                 itemString += "产品名称：" + result.data.goodsName + "<br>" +
+                            "订购数量：" + result.data.quantity + "<br>" +
                             "客户姓名：" + result.data.yourName + "<br>" +
                             "公司名称：" + result.data.companyName + "<br>" +
                             "客户地址：" + result.data.address  + "<br>" +

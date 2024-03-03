@@ -70,7 +70,6 @@ public class GoodsInfoController {
             return ResultGenerator.genFailResult("参数异常");
         }
         PageQueryUtil pageQueryUtil = new PageQueryUtil(params);
-//        PageResult goodsPage = goodsInfoService.getGoodsPage(pageQueryUtil);
         PageResult pageResult = goodsInfoService.getGoodsWithCategoryPage(pageQueryUtil);
 
         return ResultGenerator.genSuccessResult(pageResult);
@@ -125,13 +124,13 @@ public class GoodsInfoController {
                 || goodsInfo.getGoodsCategoryId() == null) {
             return ResultGenerator.genFailResult("商品信息不全或有误！");
         }
-        logger.info("商品信息：{}", goodsInfo);
         String[] images = goodsInfo.getGoodsCoverImg().split(",");
-        goodsInfo.setGoodsCoverImg(images[0]);
+
         if (images.length > 1) {
             String img = goodsInfo.getGoodsCoverImg().substring(images[0].length() + 1);
             goodsInfo.setGoodsSubImg(img);
         }
+        goodsInfo.setGoodsCoverImg(images[0]);
         int i = goodsInfoService.updateByPrimaryKey(goodsInfo);
         if (i == 0) {
             return ResultGenerator.genFailResult("更新失败");
@@ -228,7 +227,6 @@ public class GoodsInfoController {
                 File imgFile = new File(imageLocalPath);
                 if (imgFile.exists() && imgFile.isFile()) {
                     boolean delete = imgFile.delete();
-                    logger.info("删除状态：{}", delete);
                 }
             }
 

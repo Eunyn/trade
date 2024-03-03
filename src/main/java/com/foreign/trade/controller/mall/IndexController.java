@@ -167,8 +167,10 @@ public class IndexController {
     }
 
     private String getInquiryGoodsInfo(GoodsInquiry goodsInquiry) {
+        String quantity = goodsInquiry.getQuantity() != null ? "" + goodsInquiry.getQuantity() : "";
         return "Inquiry Information：" +
                 "<br>产品名称：" + goodsInquiry.getGoodsName() +
+                "<br>订购数量：" + quantity +
                 "<br>客户姓名：" + goodsInquiry.getYourName() +
                 "<br>公司名称：" + goodsInquiry.getCompanyName() +
                 "<br>客户地址：" + goodsInquiry.getAddress() +
