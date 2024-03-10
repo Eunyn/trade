@@ -48,8 +48,8 @@ $(function () {
     }
 
     function goodsProductionTime(cellvalue) {
-        if (cellvalue.length > 50) {
-            cellvalue = cellvalue.substring(0,50) + '...';
+        if (cellvalue.length > 30) {
+            cellvalue = cellvalue.substring(0,30) + '...';
         }
 
         return cellvalue;

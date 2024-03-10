@@ -41,7 +41,7 @@
                         <div class="col" th:each="good : ${pageResult.list}" id="searchProductImg">
                             <a class="product_name" th:href="@{'/mall/products/' + ${good.goodsId}}">
                                 <img th:src="@{${good.goodsCoverImg}}">
-                                <p th:text="${good.goodsName}">product</p>
+                                <p th:text="${#strings.abbreviate(good.goodsName, 20)}">product</p>
                             </a>
                         </div>
                     </th:block>
